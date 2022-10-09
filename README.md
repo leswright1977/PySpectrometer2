@@ -43,3 +43,5 @@ Useful features have been kept fromthe previous version, including peak hold, pe
 
 Future work:
 It is planned to add in GPIO support, to allow the use of buttons and knobs to control the Spectrometer.
+
+![Screenshot](media/scope.png)
