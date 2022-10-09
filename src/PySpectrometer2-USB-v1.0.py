@@ -243,9 +243,7 @@ while(cap.isOpened()):
 			waterfall = waterfall[:-1].copy() #remove last element from array
 
 			hsv = cv2.cvtColor(waterfall, cv2.COLOR_BGR2HSV)
-			value = 100 #whatever value you want to add
-			cv2.add(hsv[:,:,2], value, hsv[:,:,2])
-			waterfall = cv2.cvtColor(hsv, cv2.COLOR_HSV2BGR)
+
 
 
 		#Draw the intensity data :-)
