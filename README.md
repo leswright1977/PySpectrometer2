@@ -7,7 +7,7 @@ https://github.com/leswright1977
 
 This project is a follow on from: https://github.com/leswright1977/PySpectrometer 
 
-This is a more advanced, but more flexible version of the original program. Tk has been dropped as the GUI to allow fullscreen mode on Raspberry Pi systems and the interface is designed to fit 800*480 screens, which seem to be a common resolutin for RPi LCD's, paving the way for the creation of a stand alone benchtop instrument.
+This is a more advanced, but more flexible version of the original program. Tk has been dropped as the GUI to allow fullscreen mode on Raspberry Pi systems and the interface is designed to fit 800*480 screens, which seem to be a common resolution for RPi LCD's, paving the way for the creation of a stand alone benchtop instrument.
 
 Whats new:
 Higher reolution (800px wide graph)
