@@ -16,6 +16,8 @@ Tk has been dropped as the GUI to allow easier maintainability, extendability an
 
 In Fullscreen mode on Raspberry Pi systems, the interface is designed to fit 800*480 screens, which seem to be a common resolution for RPi LCD's, paving the way for the creation of a stand alone benchtop instrument.
 
+![Screenshot](media/spectrum-20221009--204832.png)
+
 
 Whats new:
 
@@ -39,9 +41,21 @@ Key Bindings for all operations.
 
 Useful features have been kept fromthe previous version, including peak hold, peak detect, Savitsky Golay filter, and the ability to save graphs as png and data as CSV.
 
+Waterfall display:
+![Screenshot](media/waterfall-20221009--204832.png)
+
 
 
 Future work:
-It is planned to add in GPIO support, to allow the use of buttons and knobs to control the Spectrometer.
+It is planned to add inputs (*of some desciption), to allow the use of buttons and knobs to control the Spectrometer.
+*The type of inputs will depend on oddly the type of screen!
+The hyperpixel displays consume all of the GPIO on the Pi, however buttons could easily be provided if they talk HID
+DSI displays could be used, however that would require the user roll back to legacy camera support!
+HDMI displays can be used, and this woudl free up GPIO
 
-![Screenshot](media/scope.png)
+
+
+
+
+
+
