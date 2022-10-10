@@ -42,6 +42,7 @@ Key Bindings for all operations.
 Useful features have been kept fromthe previous version, including peak hold, peak detect, Savitsky Golay filter, and the ability to save graphs as png and data as CSV.
 
 Waterfall display:
+
 ![Screenshot](media/waterfall-20221009--204832.png)
 
 
