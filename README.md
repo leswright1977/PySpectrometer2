@@ -9,7 +9,7 @@ This project is a follow on from: https://github.com/leswright1977/PySpectromete
 
 This is a more advanced, but more flexible version of the original program. It changes the spectrometer from 'toy' to serious instrument!
 
-Recent changes in the OS (Bullseye) broke the old vesion:broken video, broken dependencies and so on. PyPspectromer v3.0 was hacked and fixed as of 3.1), however I have been thinking about a rewrite of this software for a while, so here it is!
+Recent changes in the OS (Bullseye) broke the old vesion e.g broken video, broken dependencies and so on. PySpectrometer v3.0 was hacked and fixed as of 3.1), however I have been thinking about a rewrite of this software for a while, so here it is!
 
 
 Tk has been dropped as the GUI to allow easier maintainability, extendability and flexibility. The new interface is coded entriely in OpenCV, and whilst things like trackbars and buttons are now dropped in favour of keybindings, this frees up screen real estate, and allows the support of resizing without fuss, and fullscreen mode is now supported!
@@ -66,19 +66,57 @@ HDMI displays can be used, and this would free up GPIO
 # User Guide
 
 
-Key Bindings:
+## Key Bindings:
 
-* q = quit
-* h = hold peaks
-* s = save data
-* c = calibrate
-* x = clear points
-* m = measure
-* p = record pixels
+### Graph Display Controls
+* t/g = Analogue Gain up/down
 * o/l = savpoly up/down
 * i/k = peak width up/down
 * u/j = Label threshold up/down
-* t/g = Analogue Gain up/down
+* h = hold peaks
+
+### Calibration and General Software
+* m = measure (Toggles measure funtion. In this mode a crosshairs is displayed on the Spectrogram that allows the meaurement of wavelength)
+* p = record pixels (Toggles pixel function (Part of the calibration procedure) allows the selection of multiple pixel positions on the graph)
+* x = clear points (Clear selected pixel points above)
+* c = calibrate (Enter the calibration routine, requires console input)
+* s = save data (Saves Spectrograph as png and CSV data. Saves waterfall as png.
+* q = quit (Quit Program)
+
+## Starting the program
+
+First, clone this repo!
+
+In /src you will find:
+
+* PySpectrometer2-Picam2-v1.0.py  (PySpectrometer for Raspberry Pi)
+* PySpectrometer2-USB-v1.0.py     (Dev version of this program (uses USB camera on a Debian PC (May or mway not work for you, probably won't work on the Pi!)
+* specFunctions.py                (A libray of funtions including: Wavelength to RGB, SavGol filter from Scipy, Peak detedct from peakutils, readcal and writecal, written by me.)
+
+
+To run the program, first make it executable by running: chmod +x PySpectrometer2-Picam2-v1.0.py
+Run by typing: ./PySpectrometer2-Picam2-v1.0.py
+
+When first started, the spectrometer is in an uncalibrated state! You must therefore perform the calibration procedure, but at this stage you should be able to focus and align your camera with your spectroscope using the preview window. Is is expected that red light is on the right, and blue-violet on the left.\
+An excellent choice for this is daylight, as well defined Fraunhoffer lines are indicative of good camera focus.
+
+## Calibration
+
+This version of the PySpectrometer performs Polynomial curve fitting of the user provided calibration wavelengths. This procedure if done with care with result in a precision instument!
+
+When light from a diffaction grating falls upon a flat sensor the dispersion of light is not linear, and so calibration with just two data points (as in the old version of this software) will result in innacurate readings. This nonlinearity is likely compounded by additional nonlinearities introduced by the camera lenses. To address the nonlinearity, the user must provide the pixel positions of at least 3 known wavelengths (4 to 6 is highly recommended for high accuracy!). This information is then used by the program to compute the wavelengths of every single pixel position of the sensor.
+
+Where 3 wavelengths are used for calibration, the software will perform a 2nd order polynomial fit (Reasonably accurate)
+
+Where 4 or more wavelengths are used, the software will perform a 3rd order polymonial fit (Very accurate)
+
+Assuming your physical spectrometer setup is rigid and robust, calibration will only need to be done once (Data is saved to a file called: caldata.txt), and therafter when any cahnge is made to the physical setup.
+
+Direct your Spectrometer at a light source with many discrete emission lines. A target illuminated by Lasers would be an exellent (though very expensive!) choice! An inexpensive alternative is a Fluorescent tube.
+
+
+
+
 
 
 
