@@ -134,8 +134,12 @@ Rinse and repeat for your identified peaks. (Note it makes sense to do this from
 Once you have selected all of your peaks, press 'c' and turn your attention to the terminal window.
 For each pixel number, enter the identified wavelength.
 
-Once this is complete, the software will recalibrate the graticule and its internal representation of all the wavelength data.
-In the console, it will print out the value of R_Squared. This value will give an indication of how well the calulated data matches your input data. The closer this value is to 1, the more accurately you recorded your wavelengths! for example a six nines fit (0.999999xxxx) is excellent. If it is a way off, one or more of your identified wavlengths may be incorrect!
+Once you have entered the wavelengths for each data point, the software will recalibrate the graticule and its internal representation of all the wavelength data.
+In the console, it will print out the value of R_Squared. This value will give an indication of how well the calulated data matches your input data. The closer this value is to 1, the more accurately you recorded your wavelengths! for example a six nines fit (0.999999xxxx) is excellent. If it is a way off, one or more of your identified wavlengths may be incorrect, and you should repeat the calibaration procedure!
+
+### Check your work
+Refer back to the graph above, can you identify with a reasonable degree of accuracy other peaks? (bearing in mind your fluorescent lamp may differ from the one on the wiki!).
+
 
 
 
