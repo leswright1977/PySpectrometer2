@@ -62,9 +62,17 @@ picam2 = Picamera2()
 #min and max microseconds per frame gives framerate.
 #30fps (33333, 33333)
 #25fps (40000, 40000)
-video_config = picam2.create_video_configuration(main={"format": 'RGB888', "size": (frameWidth, frameHeight)}, controls={"FrameDurationLimits": (40000, 40000), "AnalogueGain": 5.0 })
+
+picamGain = 10.0
+
+video_config = picam2.create_video_configuration(main={"format": 'RGB888', "size": (frameWidth, frameHeight)}, controls={"FrameDurationLimits": (33333, 33333)})
 picam2.configure(video_config)
 picam2.start()
+
+#Change analog gain
+#picam2.set_controls({"AnalogueGain": 10.0}) #Default 1
+#picam2.set_controls({"Brightness": 0.2}) #Default 0 range -1.0 to +1.0
+#picam2.set_controls({"Contrast": 1.8}) #Default 1 range 0.0-32.0
 
 
 
@@ -240,6 +248,10 @@ while True:
 			#wdata[0,index]=(r,g,b) #fix me!!! how do we deal with this data??
 			wdata[0,index]=(r,g,b)
 			index+=1
+		#bright and contrast of final image
+		contrast = 3
+		brightness =10
+		wdata = cv2.addWeighted( wdata, contrast, wdata, 0, brightness)
 		waterfall = np.insert(waterfall, 0, wdata, axis=0) #insert line to beginning of array
 		waterfall = waterfall[:-1].copy() #remove last element from array
 
@@ -320,9 +332,10 @@ while True:
 	cv2.line(spectrum_vertical,(0,160),(frameWidth,160),(255,255,255),1)
 	#print the messages
 	cv2.putText(spectrum_vertical,calmsg1,(490,15),font,0.4,(0,255,255),1, cv2.LINE_AA)
-	cv2.putText(spectrum_vertical,calmsg2,(490,33),font,0.4,(0,255,255),1, cv2.LINE_AA)
-	cv2.putText(spectrum_vertical,calmsg3,(490,51),font,0.4,(0,255,255),1, cv2.LINE_AA)
-	cv2.putText(spectrum_vertical,saveMsg,(490,69),font,0.4,(0,255,255),1, cv2.LINE_AA)
+	cv2.putText(spectrum_vertical,calmsg3,(490,33),font,0.4,(0,255,255),1, cv2.LINE_AA)
+	cv2.putText(spectrum_vertical,saveMsg,(490,51),font,0.4,(0,255,255),1, cv2.LINE_AA)
+	cv2.putText(spectrum_vertical,"Gain: "+str(picamGain),(490,69),font,0.4,(0,255,255),1, cv2.LINE_AA)
+	#Second column
 	cv2.putText(spectrum_vertical,holdmsg,(640,15),font,0.4,(0,255,255),1, cv2.LINE_AA)
 	cv2.putText(spectrum_vertical,"Savgol Filter: "+str(savpoly),(640,33),font,0.4,(0,255,255),1, cv2.LINE_AA)
 	cv2.putText(spectrum_vertical,"Label Peak Width: "+str(mindist),(640,51),font,0.4,(0,255,255),1, cv2.LINE_AA)
@@ -349,10 +362,10 @@ while True:
 			cv2.putText(waterfall_vertical,str(positiondata[1])+'nm',(positiondata[0]-textoffset,475),font,0.4,(255,255,255),1, cv2.LINE_AA)
 
 		cv2.putText(waterfall_vertical,calmsg1,(490,15),font,0.4,(0,255,255),1, cv2.LINE_AA)
-		cv2.putText(waterfall_vertical,calmsg2,(490,33),font,0.4,(0,255,255),1, cv2.LINE_AA)
-		cv2.putText(waterfall_vertical,calmsg3,(490,51),font,0.4,(0,255,255),1, cv2.LINE_AA)
-		cv2.putText(waterfall_vertical,saveMsg,(490,69),font,0.4,(0,255,255),1, cv2.LINE_AA)
-
+		cv2.putText(waterfall_vertical,calmsg3,(490,33),font,0.4,(0,255,255),1, cv2.LINE_AA)
+		cv2.putText(waterfall_vertical,saveMsg,(490,51),font,0.4,(0,255,255),1, cv2.LINE_AA)
+		cv2.putText(waterfall_vertical,"Gain: "+str(picamGain),(490,69),font,0.4,(0,255,255),1, cv2.LINE_AA)
+		
 		cv2.putText(waterfall_vertical,holdmsg,(640,15),font,0.4,(0,255,255),1, cv2.LINE_AA)
 
 		cv2.imshow(title2,waterfall_vertical)
@@ -433,6 +446,20 @@ while True:
 			thresh-=1
 			if thresh <=0:
 				thresh=0
+
+	elif keyPress == ord("t"):#Gain up!
+			picamGain += 1
+			if picamGain >=50:
+				picamGain = 50.0
+			picam2.set_controls({"AnalogueGain": picamGain})
+			print("Camera Gain: "+str(picamGain))
+	elif keyPress == ord("g"):#Gain down
+			picamGain -= 1
+			if picamGain <=0:
+				picamGain = 0.0
+			picam2.set_controls({"AnalogueGain": picamGain})
+			print("Camera Gain: "+str(picamGain))								
+				
 
 
  
