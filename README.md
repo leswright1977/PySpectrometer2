@@ -52,7 +52,7 @@ It is planned to add inputs (*of some desciption), to allow the use of buttons a
 *The type of inputs will depend on oddly the type of screen!
 The hyperpixel displays consume all of the GPIO on the Pi, however buttons could easily be provided if they talk HID
 DSI displays could be used, however that would require the user roll back to legacy camera support!
-HDMI displays can be used, and this woudl free up GPIO
+HDMI displays can be used, and this would free up GPIO
 
 
 
