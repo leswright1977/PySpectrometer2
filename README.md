@@ -55,6 +55,20 @@ DSI displays could be used, however that would require the user roll back to leg
 HDMI displays can be used, and this would free up GPIO
 
 
+Key Bindings:
+
+q = quit
+h = hold peaks
+s = save data
+c = calibrate
+x = clear points
+m = measure
+p = record pixels
+o/l = savpoly up/down
+i/k = peak width up/down
+u/j = Label threshold up/down
+t/g = Analogue Gain up/down
+
 
 
 
