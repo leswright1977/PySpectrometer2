@@ -42,7 +42,7 @@ Whats new:
 The funtionality of the previous version has been retained, including peak hold, peak detect, Savitsky Golay filter, and the ability to save graphs as png and data as CSV.
 
 A very cool addition to this project is a Waterfall display! This allows the recording of change in in wavelength over time.
-For my purposes this is especially useful for Dy Lasers, however this may be of use to those observing the spectra of light sources that may change in intensity of wavelength.
+For my purposes this is especially useful for Dye Lasers, however this may be of use to those observing the spectra of light sources that may change in intensity of wavelength.
 
 Example waterfall display of a fluorescent lamp:
 ![Screenshot](media/waterfall-20221013--210412.png)
