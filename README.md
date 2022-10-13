@@ -39,16 +39,19 @@ Whats new:
 
 - Analogue Gain control for the Picam
 
-
-
 The funtionality of the previous version has been retained, including peak hold, peak detect, Savitsky Golay filter, and the ability to save graphs as png and data as CSV.
 
-Waterfall display:
+A very cool addition to this project is a Waterfall display! This allows the recording of change in in wavelength over time.
+For my purposes this is especially useful for Dy Lasers, however this may be of use to those observing the spectra of light sources that may change in intensity of wavelength.
 
+Example waterfall display of a fluorescent lamp:
 ![Screenshot](media/waterfall-20221013--210412.png)
 
+
+Waterfall display of a Dye laser being tuned (Coumarin-1). The jagged tuning curve is because this laser was hand-tuned!
 ![Screenshot](media/waterfall-20221013--205708.png)
 
+Below the tuning curve of Rhodamine 6G
 ![Screenshot](media/waterfall-20221013--205840.png)
 
 
@@ -60,7 +63,7 @@ The hyperpixel displays consume all of the GPIO on the Pi, however buttons could
 DSI displays could be used, however that would require the user roll back to legacy camera support!
 HDMI displays can be used, and this would free up GPIO
 
-#User Guide
+# User Guide
 
 
 Key Bindings:
