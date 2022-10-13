@@ -16,7 +16,7 @@ Tk has been dropped as the GUI to allow easier maintainability, extendability an
 
 In Fullscreen mode on Raspberry Pi systems, the interface is designed to fit 800*480 screens, which seem to be a common resolution for RPi LCD's, paving the way for the creation of a stand alone benchtop instrument.
 
-![Screenshot](media/spectrum-20221009--204832.png)
+![Screenshot](media/spectrum-20221013--210412.png)
 
 
 Whats new:
