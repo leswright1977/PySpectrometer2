@@ -37,13 +37,19 @@ Whats new:
 
 - Key Bindings for all operations.
 
+- Analogue Gain control for the Picam
 
 
-Useful features have been kept fromthe previous version, including peak hold, peak detect, Savitsky Golay filter, and the ability to save graphs as png and data as CSV.
+
+The funtionality of the previous version has been retained, including peak hold, peak detect, Savitsky Golay filter, and the ability to save graphs as png and data as CSV.
 
 Waterfall display:
 
 ![Screenshot](media/waterfall-20221013--210412.png)
+
+![Screenshot](media/waterfall-20221013--205708.png)
+
+![Screenshot](media/waterfall-20221013--205840.png)
 
 
 
@@ -53,6 +59,8 @@ It is planned to add inputs (*of some desciption), to allow the use of buttons a
 The hyperpixel displays consume all of the GPIO on the Pi, however buttons could easily be provided if they talk HID
 DSI displays could be used, however that would require the user roll back to legacy camera support!
 HDMI displays can be used, and this would free up GPIO
+
+#User Guide
 
 
 Key Bindings:
@@ -70,9 +78,7 @@ Key Bindings:
 * t/g = Analogue Gain up/down
 
 
-waterfall-20221013--205708.png
 
-waterfall-20221013--205840.png
 
 
 
