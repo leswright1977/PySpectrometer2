@@ -21,21 +21,21 @@ In Fullscreen mode on Raspberry Pi systems, the interface is designed to fit 800
 
 Whats new:
 
-Higher reolution (800px wide graph).
+- Higher reolution (800px wide graph).
 
-3 row pixel averaging of sensor data.
+- 3 row pixel averaging of sensor data.
 
-Fullscreen option for the Spectrometer graph.
+- Fullscreen option for the Spectrometer graph.
 
-3rd order polymonial fit of calibration data for accurate measurement.
+- 3rd order polymonial fit of calibration data for accurate measurement.
 
-Improved graph labelling.
+- Improved graph labelling.
 
-Labelled measurement cursors.
+- Labelled measurement cursors.
 
-Optional waterfall display for recording spectra changes over time.
+- Optional waterfall display for recording spectra changes over time.
 
-Key Bindings for all operations.
+- Key Bindings for all operations.
 
 
 
@@ -57,17 +57,17 @@ HDMI displays can be used, and this would free up GPIO
 
 Key Bindings:
 
-q = quit
-h = hold peaks
-s = save data
-c = calibrate
-x = clear points
-m = measure
-p = record pixels
-o/l = savpoly up/down
-i/k = peak width up/down
-u/j = Label threshold up/down
-t/g = Analogue Gain up/down
+* q = quit
+* h = hold peaks
+* s = save data
+* c = calibrate
+* x = clear points
+* m = measure
+* p = record pixels
+* o/l = savpoly up/down
+* i/k = peak width up/down
+* u/j = Label threshold up/down
+* t/g = Analogue Gain up/down
 
 
 
