@@ -118,7 +118,7 @@ You should be able to identify several peaks in your graph, now you need to matc
 
 Likely the most useful is this graph: https://commons.wikimedia.org/wiki/File:Fluorescent_lighting_spectrum_peaks_labeled_with_colored_peaks_added.png
 
-These are the notable visible peaks (numbered according to the above link):
+These are the notable visible peaks:
 1) 405.4 nm (Mercury Vapour)        (A small peak but easy to spot, since it is the shortest wavelength visible)
 2) 426.6 nm (Mercury Vapour)        (A decent high amplitude blue peak)
 4) 542.4 nm (Mercury Vapour)        (One of a pair of green peaks close together and easy to spot)
