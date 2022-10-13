@@ -70,6 +70,10 @@ Key Bindings:
 * t/g = Analogue Gain up/down
 
 
+waterfall-20221013--205708.png
+
+waterfall-20221013--205840.png
+
 
 
 
