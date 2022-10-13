@@ -110,11 +110,26 @@ Where 3 wavelengths are used for calibration, the software will perform a 2nd or
 
 Where 4 or more wavelengths are used, the software will perform a 3rd order polymonial fit (Very accurate)
 
-Assuming your physical spectrometer setup is rigid and robust, calibration will only need to be done once (Data is saved to a file called: caldata.txt), and therafter when any cahnge is made to the physical setup.
+Assuming your physical spectrometer setup is rigid and robust (not held together with gravity, tape or hot glue!), calibration will only need to be done once (Data is saved to a file called: caldata.txt), and therafter when any change is made to the physical setup.
 
 Direct your Spectrometer at a light source with many discrete emission lines. A target illuminated by Lasers would be an exellent (though very expensive!) choice! An inexpensive alternative is a Fluorescent tube.
 
-You should be able to identify several peaks in your graph, now you need to match them up with known good data. For serious work I would recommend an academic resource such as: https://physics.nist.gov/PhysRefData/Handbook/Tables/mercurytable2.htm however in the spirit of citizen science (and because fluorescent lamps are somewhat variable in manufacture), I would recommend this wkipedia article to get you started: https://en.wikipedia.org/wiki/Fluorescent_lamp have a read, and scroll down to the section called: Phosphor composition In here you will find emission spectra of a variety of fluorecent lamps!
+You should be able to identify several peaks in your graph, now you need to match them up with known good data. For serious work I would recommend an academic resource such as: https://physics.nist.gov/PhysRefData/Handbook/Tables/mercurytable2.htm however in the spirit of citizen science (and because fluorescent lamps are somewhat variable in manufacture), I would recommend this wkipedia article to get you started: https://en.wikipedia.org/wiki/Fluorescent_lamp have a read, and scroll down to the section called: Phosphor composition. In here you will find emission spectra of a variety of fluorecent lamps!
+
+Likely the most useful is this graph: https://commons.wikimedia.org/wiki/File:Fluorescent_lighting_spectrum_peaks_labeled_with_colored_peaks_added.png
+
+These are the notable visible peaks (numbered according to the above link):
+1) 405.4 nm (Mercury Vapour)        (A small peak but easy to spot, since it is the shortest wavelength visible)
+2) 426.6 nm (Mercury Vapour)        (A decent high amplitude blue peak)
+4) 542.4 nm (Mercury Vapour)        (One of a pair of green peaks close together and easy to spot)
+5) 546.5 nm (Mercury Vapour)        (One of a pair of green peaks close together and easy to spot)
+12) 611.6 nm (Europium)             (This peak really stand out clearly)
+15) 650.8 nm (Europium (Probably))  (Less easy to spot, but if you also use a red laser pointer (650-660nm), you should be able to pick it out as the nearest peak to your pointer!)
+
+
+
+
+
 
 
 
