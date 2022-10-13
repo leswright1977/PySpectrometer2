@@ -91,7 +91,7 @@ In /src you will find:
 
 * PySpectrometer2-Picam2-v1.0.py  (PySpectrometer for Raspberry Pi)
 * PySpectrometer2-USB-v1.0.py     (Dev version of this program (uses USB camera on a Debian PC (May or mway not work for you, probably won't work on the Pi!)
-* specFunctions.py                (A libray of funtions including: Wavelength to RGB, SavGol filter from Scipy, Peak detedct from peakutils, readcal and writecal, written by me.)
+* specFunctions.py                (A library of funtions including: Wavelength to RGB, SavGol filter from Scipy, Peak detedct from peakutils, readcal and writecal, written by me.)
 
 
 To run the program, first make it executable by running: chmod +x PySpectrometer2-Picam2-v1.0.py
