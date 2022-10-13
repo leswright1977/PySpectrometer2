@@ -9,7 +9,7 @@ This project is a follow on from: https://github.com/leswright1977/PySpectromete
 
 This is a more advanced, but more flexible version of the original program. It changes the spectrometer from 'toy' to serious instrument!
 
-Recent changes broke the old vesion, hich was fixed(Incompatibilities with Bullseye including broken video, broken dependencies and so on. PyPspectromer3 v3.0 was hacked and fixed as of 3.1), however I have been thinking about a rewrite of this software for a while, so here it is!
+Recent changes in the OS (Bullseye) broke the old vesion:broken video, broken dependencies and so on. PyPspectromer v3.0 was hacked and fixed as of 3.1), however I have been thinking about a rewrite of this software for a while, so here it is!
 
 
 Tk has been dropped as the GUI to allow easier maintainability, extendability and flexibility. The new interface is coded entriely in OpenCV, and whilst things like trackbars and buttons are now dropped in favour of keybindings, this frees up screen real estate, and allows the support of resizing without fuss, and fullscreen mode is now supported!
