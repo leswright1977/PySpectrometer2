@@ -43,7 +43,7 @@ Useful features have been kept fromthe previous version, including peak hold, pe
 
 Waterfall display:
 
-![Screenshot](media/waterfall-20221009--204832.png)
+![Screenshot](media/waterfall-20221013--210412.png)
 
 
 
