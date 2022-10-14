@@ -249,7 +249,7 @@ while True:
 			wdata[0,index]=(r,g,b)
 			index+=1
 		#bright and contrast of final image
-		contrast = 3
+		contrast = 2.5
 		brightness =10
 		wdata = cv2.addWeighted( wdata, contrast, wdata, 0, brightness)
 		waterfall = np.insert(waterfall, 0, wdata, axis=0) #insert line to beginning of array
