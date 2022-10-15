@@ -121,7 +121,7 @@ Likely the most useful is this graph: https://commons.wikimedia.org/wiki/File:Fl
 These are the notable visible peaks:
 1) 405.4 nm (Mercury Vapour)        (A small peak but easy to spot, since it is the shortest wavelength in the visible)
 2) 426.6 nm (Mercury Vapour)        (A decent high amplitude blue peak)
-4) 542.4 nm (Mercury Vapour)        (One of a pair of green peaks close together and easy to spot)
+4) 542.4 nm (Terbium)               (One of a pair of green peaks close together and easy to spot)
 5) 546.5 nm (Mercury Vapour)        (One of a pair of green peaks close together and easy to spot)
 12) 611.6 nm (Europium)             (This orange peak really stands out clearly)
 15) 650.8 nm (Europium (Probably))  (Less easy to spot red peak, but if you also use a red laser pointer (650-660nm), you should be able to pick it out as the nearest peak to your pointer!)
