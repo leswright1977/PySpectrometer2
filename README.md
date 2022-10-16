@@ -141,6 +141,7 @@ Refer back to the graph from the wiki, can you identify with a reasonable degree
 ![Screenshot](media/calibrated.png)
 
 In the screenshot above above, a well defined peak (not used as a caibration value) at 587.4nm has been detected. Referring to the Wiki this is listed at 587.6nm, only 0.2nm off with a five nines calibration! :-)
+For unlabelled peaks, pressing 'm' will toggle on the measurement crosshairs, that display wavelength for any given position.
 
 
 # Future work:
