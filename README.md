@@ -150,7 +150,8 @@ It is planned to add inputs (*of some description), to allow the use of buttons 
 The hyperpixel displays consume all of the GPIO on the Pi, however buttons could easily be provided if they talk HID
 DSI displays could be used, however seeimingly that would require the user roll back to legacy camera support!
 HDMI displays can be used, and this would free up all the GPIO.
-I suppose a one size fits all approach would be a HID device, using a Teensy or an Arduino...
+
+A one size fits all approach would be a HID device, there is plenty of choice, including using a Teensy or an Arduino, or even a number pad with custom keycaps.
 
 
 I am thinking of implementing something approaching autocalibration, though this might be difficult implement for all use-cases.
