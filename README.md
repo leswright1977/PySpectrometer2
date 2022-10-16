@@ -16,7 +16,7 @@ Tk has been dropped as the GUI to allow easier maintainability, extendability an
 
 In Fullscreen mode on Raspberry Pi systems, the interface is designed to fit 800*480 screens, which seem to be a common resolution for RPi LCD's, paving the way for the creation of a stand alone benchtop instrument.
 
-![Screenshot](media/spectrum-20221013--210412.png)
+![Screenshot](media/calibrated.png)
 
 
 Whats new:
@@ -129,29 +129,25 @@ These are the notable visible peaks:
 
 Once you have identified some peaks, at least 3, but even better 4 to 6, firts press 'h' to goggle on peak hold, this will stabilize the graph, and even allow you to switch off the light source!
 
-Press the 'p' key on the keyboard. This will toggle on the pixel measuring crosshairs, move the crosshairs to each of your peaks, and click once the crosshairs are aligned with the 'flagpole' of the wavelength marker (below)
-
-INSERT IMAGE (flagpole)
-
-
+Press the 'p' key on the keyboard. This will toggle on the pixel measuring crosshairs, move the crosshairs to each of your peaks, and click once the crosshairs are aligned with the 'flagpole' of the wavelength marker.
 Rinse and repeat for your identified peaks. (Note it makes sense to do this from left to right!)
 
-INSERT IMAGE (selected peaks)
+![Screenshot](media/pointsadded.png)
 
 Once you have selected all of your peaks, press 'c' and turn your attention to the terminal window.
 For each pixel number, enter the identified wavelength.
 
-INSERT IMAGE Terminal
-
 Once you have entered the wavelengths for each data point, the software will recalibrate the graticule and its internal representation of all the wavelength data.
 In the console, it will print out the value of R_Squared. 
 
-INSERT IMAGE r squared!
+![Screenshot](media/console.png)
 
 This value will give an indication of how well the calulated data matches your input data. The closer this value is to 1, the more accurately you recorded your wavelengths! for example a six nines fit (0.999999xxxx) is excellent. If it is a way off, one or more of your identified wavlengths may be incorrect, and you should repeat the calibaration procedure!
 
 ### Check your work
 Refer back to the graph above, can you identify with a reasonable degree of accuracy other peaks? (bearing in mind your fluorescent lamp may differ from the one on the wiki!).
+
+![Screenshot](media/calibrated.png)
 
 
 
