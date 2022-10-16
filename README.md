@@ -140,12 +140,12 @@ Refer back to the graph from the wiki, can you identify with a reasonable degree
 
 ![Screenshot](media/calibrated.png)
 
-In the screenshot above above, a peak (not used as a caibration value) at 587.4nm has been detected. Referring to the Wiki this is listed at 587.6nm, only 0.2nm off, with a five nines calibration! :-)
+In the screenshot above above, a well defined peak (not used as a caibration value) at 587.4nm has been detected. Referring to the Wiki this is listed at 587.6nm, only 0.2nm off with a five nines calibration! :-)
 
 
 #Future work:
 
-It is planned to add inputs (*of some desciption), to allow the use of buttons and knobs to control the Spectrometer.
+It is planned to add inputs (*of some description), to allow the use of buttons and knobs to control the Spectrometer.
 *The type of inputs will depend on oddly the type of screen!
 The hyperpixel displays consume all of the GPIO on the Pi, however buttons could easily be provided if they talk HID
 DSI displays could be used, however seeimingly that would require the user roll back to legacy camera support!
