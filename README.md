@@ -1,10 +1,6 @@
 # PySpectrometer2
 The Second Incarnation of the Spectrometer project!
 
-PySpectrometer2 Les Wright 2022
-https://www.youtube.com/leslaboratory
-https://github.com/leswright1977
-
 This project is a follow on from: https://github.com/leswright1977/PySpectrometer 
 
 This is a more advanced, but more flexible version of the original program. It changes the spectrometer from 'toy' to serious instrument!
