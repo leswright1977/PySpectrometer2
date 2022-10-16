@@ -119,13 +119,13 @@ You should be able to identify several peaks in your graph, now you need to matc
 Likely the most useful is this graph: https://commons.wikimedia.org/wiki/File:Fluorescent_lighting_spectrum_peaks_labeled_with_colored_peaks_added.png
 
 These are the notable visible peaks:
-1) 405.4 nm (Mercury)        (A small peak but easy to spot, since it is the shortest wavelength in the visible)
-2) 436.6 nm (Mercury)        
-3) 487.7    (Terbium)
-4) 542.4    (Terbium)
-5) 546.5    (Mercury)
-12) 611.6   (Europium)
-15) 650.8 nm (Europium (Probably))  (Less easy to spot red peak, but if you also use a red laser pointer (650-660nm), you should be able to pick it out as the nearest peak to your pointer!)
+* 1 405.4 nm (Mercury)        (A small peak but easy to spot, since it is the shortest wavelength in the visible)
+* 2 436.6 nm (Mercury)        
+* 3 487.7    (Terbium)
+* 4 542.4    (Terbium)
+* 5 546.5    (Mercury)
+* 12 611.6   (Europium)
+* 14 631.1   (Europium)
 
 Once you have identified some peaks, at least 3, but even better 4 to 6, firts press 'h' to goggle on peak hold, this will stabilize the graph, and even allow you to switch off the light source!
 
