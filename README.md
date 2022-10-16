@@ -133,7 +133,7 @@ For each pixel number, enter the identified wavelength.
 ![Screenshot](media/console.png)
 
 Once you have entered the wavelengths for each data point, the software will recalibrate the graticule and its internal representation of all the wavelength data.
-In the console, it will print out the value of R-Squared. This value will give an indication of how well the calulated data matches your input data. The closer this value is to 1, the more accurately you recorded your wavelengths! for example a six nines fit (0.999999xxxx) is excellent, and 5 nines is good. If it is a way off, one or more of your identified wavlengths may be incorrect, and you should repeat the calibaration procedure!
+In the console, it will print out the value of R-Squared. This value will give an indication of how well the calulated data matches your input data. The closer this value is to 1, the more accurately you recorded your wavelengths! for example a six nines fit (0.999999xxxx) is excellent, and 5 nines is good. If it is a way off, one or more of your identified wavlengths may be incorrect, and you should repeat the calibaration procedure! (Press 'x' to clear the points!)
 
 ### Check your work
 Refer back to the graph from the wiki, can you identify with a reasonable degree of accuracy other peaks? (bearing in mind your fluorescent lamp may differ from the one on the wiki!).
@@ -142,6 +142,8 @@ Refer back to the graph from the wiki, can you identify with a reasonable degree
 
 In the screenshot above above, a well defined peak (not used as a caibration value) at 587.4nm has been detected. Referring to the Wiki this is listed at 587.6nm, only 0.2nm off with a five nines calibration! :-)
 For unlabelled peaks, pressing 'm' will toggle on the measurement crosshairs, that display wavelength for any given position.
+
+Calibration data is written to a file (caldata.txt), so calibration is retained when the program is restarted.
 
 
 # Future work:
