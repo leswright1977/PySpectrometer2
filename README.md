@@ -93,7 +93,7 @@ Everything is assembled on an aluminium base (note the Camera is not cooled, the
 
 ## Miniture Spectroscope
 
-The build is as simple as the standard version, however uses a miniature pocket spectrometer.
+The build is as simple as the standard version, however, uses a miniature pocket spectrometer.
 
 ![Screenshot](media/minispect.png)
 
