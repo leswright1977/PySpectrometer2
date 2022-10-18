@@ -1,23 +1,27 @@
 # PySpectrometer2
 
-This program, hardware design, and associated information is Open Source (see Licence), but if you have gotten value from these kinds of projects and think they are worth something, please consider donating: https://paypal.me/leslaboratory?locale.x=en_GB
 The Second Incarnation of the Spectrometer project!
 
+This is a more advanced, but more flexible version of the original program. It changes the spectrometer from 'toy' to serious instrument, which can easily compete with commercial units consting thousands of dollars!
+
+This program, hardware design, and associated information is Open Source (see Licence), but if you have gotten value from these kinds of projects and think they are worth something, please consider donating: https://paypal.me/leslaboratory?locale.x=en_GB
 This project is a follow on from: https://github.com/leswright1977/PySpectrometer 
 
-This is a more advanced, but more flexible version of the original program. It changes the spectrometer from 'toy' to serious instrument!
+This readme is accompanied by youtube videos, whowing how to build and use the spectrometer!
+Visit my Youtube Channel at: https://www.youtube.com/leslaboratory
+
+## Rationale for the new build
 
 Recent changes in the OS (Bullseye) broke the old vesion e.g broken video, broken dependencies and so on. PySpectrometer v3.0 was hacked and fixed as of 3.1), however I have been thinking about a rewrite of this software for a while, so here it is!
 
-
 Tk has been dropped as the GUI to allow easier maintainability, extendability and flexibility. The new interface is coded entriely in OpenCV, and whilst things like trackbars and buttons are now dropped in favour of keybindings, this frees up screen real estate, and allows the support of resizing without fuss, and fullscreen mode is now supported!
 
-In Fullscreen mode on Raspberry Pi systems, the interface is designed to fit 800*480 screens, which seem to be a common resolution for RPi LCD's, paving the way for the creation of a stand alone benchtop instrument.
+In Fullscreen mode on Raspberry Pi systems, the interface is designed to fit 800 x 480 screens, which seem to be a common resolution for RPi LCD's, paving the way for the creation of a stand alone benchtop instrument.
 
 ![Screenshot](media/calibrated.png)
 
 
-Whats new:
+### Whats new:
 
 - Higher reolution (800px wide graph).
 
@@ -52,13 +56,16 @@ Waterfall display of a Dye laser being tuned (Coumarin-1). The jagged tuning cur
 Below the tuning curve of Rhodamine 6G
 ![Screenshot](media/waterfall-20221013--205840.png)
 
+
+
+
 # Hardware
 
 The hardware is simple and widely avilable and so should be easily to duplicate without critical alignment or difficult construction. The hard work was developing the software.
 
 Resolution/accuracy seems is subnanometer with a well built and calibrated setup, which is excellent for the price of the hardware, especially when you consider the price of commercial components such as the Hamamatsu C12880MA breakout boards which run north of 300 bucks, and has a resolution of 15nm. Of course, this build is physically much larger, but not enormous!
 
-Visit my Youtube Channel at: https://www.youtube.com/leslaboratory
+
 
 ## Standard Spectroscope
 
@@ -95,6 +102,7 @@ M12x0.5 F2.0 Fixed 12mm Focal length Lens: (search eBay)
 
 
 
+
 ## Stand alone unit
 
 WHAT ABOUT THE COMPACT UNIT WITH SCREEN??
@@ -104,8 +112,9 @@ WHAT ABOUT THE COMPACT UNIT WITH SCREEN??
 There is nothing to stop you building a spectrometer head with a couple of razor blades, a diffraction grating, a couple of lenses and a Picam! The software should work just the same as shown in this readme!
 
 
-# User Guide
 
+
+# User Guide
 
 ## Key Bindings:
 
@@ -132,7 +141,7 @@ In /src you will find:
 
 * PySpectrometer2-Picam2-v1.0.py  (PySpectrometer for Raspberry Pi)
 * PySpectrometer2-USB-v1.0.py     (Dev version of this program (uses USB camera on a Debian PC (May or mway not work for you, probably won't work on the Pi!)
-* specFunctions.py                (A library of funtions including: Wavelength to RGB, SavGol filter from Scipy, Peak detedct from peakutils, readcal and writecal.
+* specFunctions.py                (A library of funtions including: Wavelength to RGB, SavGol filter from Scipy, Peak detect from peakutils, readcal and writecal.
 
 
 To run the program, first make it executable by running: chmod +x PySpectrometer2-Picam2-v1.0.py
@@ -181,7 +190,7 @@ For each pixel number, enter the identified wavelength.
 ![Screenshot](media/console.png)
 
 Once you have entered the wavelengths for each data point, the software will recalibrate the graticule and its internal representation of all the wavelength data.
-In the console, it will print out the value of R-Squared. This value will give an indication of how well the calulated data matches your input data. The closer this value is to 1, the more accurately you recorded your wavelengths! for example a six nines fit (0.999999xxxx) is excellent, and 5 nines is good. If it is a way off, one or more of your identified wavlengths may be incorrect, and you should repeat the calibaration procedure! (Press 'x' to clear the points!)
+In the console, it will print out the value of R-Squared. This value will give an indication of how well the calulated data matches your input data. The closer this value is to 1, the more accurately you recorded your wavelengths! for example a six nines fit (0.999999xxxx) is excellent, and 5 nines is good. If it is a way off, one or more of your identified wavlengths may be incorrect, and you should repeat the calibaration procedure! (Press 'x' to clear the points, and repeat the calibration procedure)
 
 ### Check your work
 Refer back to the graph from the wiki, can you identify with a reasonable degree of accuracy other peaks? (bearing in mind your fluorescent lamp may differ from the one on the wiki!).
