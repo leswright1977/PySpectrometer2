@@ -66,14 +66,14 @@ Below the tuning curve of Rhodamine 6G
 
 The hardware is simple and widely available and so should be easily to duplicate without critical alignment or difficult construction. The hard work was developing the software.
 
-Resolution/accuracy seems is subnanometer with a well built and calibrated setup, which is excellent for the price of the hardware, especially when you consider the price of commercial components such as the Hamamatsu C12880MA breakout boards which run north of 300 bucks, and has a resolution of 15nm. Of course, this build is physically much larger, but not enormous!
+Resolution/accuracy seems to be subnanometer with a well built and calibrated setup, which is excellent for the price of the hardware, especially when you consider the price of commercial components such as the Hamamatsu C12880MA breakout boards which run north of 300 bucks, and has a resolution of 15nm. Of course, this build is physically much larger, but not enormous!
 
 
 
 ## Standard Spectroscope
 
 For the standard build, I used a pocket spectroscope(link below) coupled into a picamera by means of a zoom lens.
-The job is simple: Mount the zoom lens on the picam, and mount the spectroscope in front, and focus the camera on the spectrum, until it is sharp and clear. Use either daylight (which has pronounced Fraunhoffer lines) or a fluorescent lamp, which has pronounced emission lines. The following command will help you: libcamera-hello -t 0
+The job is simple: Mount the zoom lens on the picam, and mount the spectroscope in front, and focus the camera on the spectrum, until it is sharp and clear. Use either daylight (which has pronounced Fraunhoffer lines) or a fluorescent lamp, which has pronounced emission lines. The following command will help you: **libcamera-hello -t 0**
 
 ![Screenshot](media/scope.png)
 
