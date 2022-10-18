@@ -1,4 +1,6 @@
 # PySpectrometer2
+
+This program, hardware design, and associated information is Open Source (see Licence), but if you have gotten value from these kinds of projects and think they are worth something, please consider donating: https://paypal.me/leslaboratory?locale.x=en_GB
 The Second Incarnation of the Spectrometer project!
 
 This project is a follow on from: https://github.com/leswright1977/PySpectrometer 
@@ -50,7 +52,42 @@ Waterfall display of a Dye laser being tuned (Coumarin-1). The jagged tuning cur
 Below the tuning curve of Rhodamine 6G
 ![Screenshot](media/waterfall-20221013--205840.png)
 
+# Hardware
 
+The hardware is simple and widely avilable and so should be easily to duplicate without critical alignment or difficult construction. The hard work was developing the software.
+
+Resolution/accuracy seems is subnanometre with a well built and calibrated setup, which is excellent for the price of the hardware, especially when you consider the price of commercial components such as the Hamamatsu C12880MA breakout boards which run north of 300 bucks, and has a resolution of 15nm. Of course, this build is physically much larger, but not enormous!
+
+Visit my Youtube Channel at: https://www.youtube.com/leslaboratory
+
+
+![Screenshot](media/scope.png)
+
+The hardware consists of:
+
+A commercial Diffraction grating Spectroscope https://www.patonhawksley.com/product-page/benchtop-spectroscope
+
+A Raspberry Pi Camera (with an M12 Thread) https://thepihut.com/products/raspberry-pi-camera-adjustable-focus-5mp
+
+A CCTV Lens with Zoom (M12 Thread) (Search eBay for F1.6 zoom lens)
+
+Everything is assembled on an aluminium base (note the Camera is not cooled, the heatsink was a conveniently sized piece of aluminium.)
+
+![Screenshot](media/parts.png)
+
+![Screenshot](media/pi.png)
+
+For the MINIATURE version the hardware is:
+
+Screenshot
+
+A commercial Diffraction grating Pocket Spectroscope: https://www.patonhawksley.com/product-page/pocket-spectroscope
+
+A Raspberry Pi Camera (with an M12 Thread): https://thepihut.com/products/raspberry-pi-camera-adjustable-focus-5mp
+
+M12x0.5 F2.0 Fixed 12mm Focal length Lens: https://www.ebay.co.uk/itm/114551239930
+
+![Screenshot](media/minispect.png)
 
 # User Guide
 
