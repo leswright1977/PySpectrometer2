@@ -85,7 +85,7 @@ A commercial Diffraction grating Pocket Spectroscope: https://www.patonhawksley.
 
 A Raspberry Pi Camera (with an M12 Thread): https://thepihut.com/products/raspberry-pi-camera-adjustable-focus-5mp
 
-M12x0.5 F2.0 Fixed 12mm Focal length Lens: https://www.ebay.co.uk/itm/114551239930
+M12x0.5 F2.0 Fixed 12mm Focal length Lens: (search eBay)
 
 ![Screenshot](media/minispect.png)
 
