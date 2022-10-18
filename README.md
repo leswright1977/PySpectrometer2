@@ -155,6 +155,7 @@ To run the program, first make it executable by running: **chmod +x PySpectromet
 Run by typing: **./PySpectrometer2-Picam2-v1.0.py**
 
 Note to also display the waterfall display, run with the option: **./PySpectrometer2-Picam2-v1.0.py --waterfall**
+
 To run in fullscreen mode (perform calibration in standard mode first), run with the option: **./PySpectrometer2-Picam2-v1.0.py --waterfall**
 
 When first started, the spectrometer is in an uncalibrated state! You must therefore perform the calibration procedure, but at this stage you should be able to focus and align your camera with your spectroscope using the preview window. Is is expected that red light is on the right, and blue-violet on the left.
