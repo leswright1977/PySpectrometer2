@@ -12,11 +12,11 @@ Visit my Youtube Channel at: https://www.youtube.com/leslaboratory
 
 ## Rationale for the new build
 
-Recent changes in the OS (Bullseye) broke the old vesion e.g broken video, broken dependencies and so on. PySpectrometer v3.0 was hacked and fixed as of 3.1), however I have been thinking about a rewrite of this software for a while, so here it is!
+Recent changes in the OS (Bullseye) broke the old version e.g broken video, broken dependencies and so on. PySpectrometer v3.0 was hacked and fixed as of 3.1), however I have been thinking about a rewrite of this software for a while, so here it is!
 
-Accuracy has been significantly improved by implementing multi-wavelength calibration and implementing a Polynomial regression data fit to compuute wavelengths as precisely as possible across the measured range.
+Accuracy has been significantly improved by implementing multi-wavelength calibration and implementing a Polynomial regression data fit to compute wavelengths as precisely as possible across the measured range.
 
-Tk has been dropped as the GUI to allow easier maintainability, extendability and flexibility. The new interface is coded entriely in OpenCV, and whilst things like trackbars and buttons are now dropped in favour of keybindings, this frees up screen real estate, and allows the support of resizing without fuss, and fullscreen mode is now supported!
+Tk has been dropped as the GUI to allow easier maintainability, extendability and flexibility. The new interface is coded entirely in OpenCV, and whilst things like trackbars and buttons are now dropped in favour of keybindings, this frees up screen real estate, and allows the support of resizing without fuss, and fullscreen mode is now supported!
 
 In Fullscreen mode on Raspberry Pi systems, the interface is designed to fit 800 x 480 screens, which seem to be a common resolution for RPi LCD's, paving the way for the creation of a stand alone benchtop instrument.
 
@@ -25,13 +25,13 @@ In Fullscreen mode on Raspberry Pi systems, the interface is designed to fit 800
 
 ### Whats new:
 
-- Higher reolution (800px wide graph).
+- Higher resolution (800px wide graph).
 
 - 3 row pixel averaging of sensor data.
 
 - Fullscreen option for the Spectrometer graph.
 
-- 3rd order polymonial fit of calibration data for accurate measurement.
+- 3rd order polynomial fit of calibration data for accurate measurement.
 
 - Improved graph labelling.
 
@@ -44,7 +44,7 @@ In Fullscreen mode on Raspberry Pi systems, the interface is designed to fit 800
 - Analogue Gain control for the Picam
 
 
-The funtionality of the previous version has been retained, including peak hold, peak detect, Savitsky Golay filter, and the ability to save graphs as png and data as CSV.
+The functionality of the previous version has been retained, including peak hold, peak detect, Savitsky Golay filter, and the ability to save graphs as png and data as CSV.
 
 A very cool addition to this project is a Waterfall display! This allows the recording of change in in wavelength over time.
 For my purposes this is especially useful for Dye Lasers, however this may be of use to those observing the spectra of light sources that may change in intensity of wavelength.
@@ -64,7 +64,7 @@ Below the tuning curve of Rhodamine 6G
 
 # Hardware
 
-The hardware is simple and widely avilable and so should be easily to duplicate without critical alignment or difficult construction. The hard work was developing the software.
+The hardware is simple and widely available and so should be easily to duplicate without critical alignment or difficult construction. The hard work was developing the software.
 
 Resolution/accuracy seems is subnanometer with a well built and calibrated setup, which is excellent for the price of the hardware, especially when you consider the price of commercial components such as the Hamamatsu C12880MA breakout boards which run north of 300 bucks, and has a resolution of 15nm. Of course, this build is physically much larger, but not enormous!
 
@@ -73,7 +73,7 @@ Resolution/accuracy seems is subnanometer with a well built and calibrated setup
 ## Standard Spectroscope
 
 For the standard build, I used a pocket spectroscope(link below) coupled into a picamera by means of a zoom lens.
-The job is simple: Mount the zoom lens on the picam, and mount the spectroscope in front, and focus the camera on the spectrum, until it is sharp and clear. Use either daylight (which has pronounced Fraunhoffer lines) or a fluorecent lamp, which has pronounced emission lines. The following command will help you: libcamera-hello -t 0
+The job is simple: Mount the zoom lens on the picam, and mount the spectroscope in front, and focus the camera on the spectrum, until it is sharp and clear. Use either daylight (which has pronounced Fraunhoffer lines) or a fluorescent lamp, which has pronounced emission lines. The following command will help you: libcamera-hello -t 0
 
 ![Screenshot](media/scope.png)
 
@@ -129,7 +129,7 @@ There is nothing to stop you building a spectrometer head with a couple of razor
 * h = hold peaks
 
 ### Calibration and General Software
-* m = measure (Toggles measure funtion. In this mode a crosshairs is displayed on the Spectrogram that allows the meaurement of wavelength)
+* m = measure (Toggles measure function. In this mode a crosshairs is displayed on the Spectrogram that allows the measurement of wavelength)
 * p = record pixels (Toggles pixel function (Part of the calibration procedure) allows the selection of multiple pixel positions on the graph)
 * x = clear points (Clear selected pixel points above)
 * c = calibrate (Enter the calibration routine, requires console input)
@@ -143,8 +143,8 @@ First, clone this repo!
 In /src you will find:
 
 * PySpectrometer2-Picam2-v1.0.py  (PySpectrometer for Raspberry Pi)
-* PySpectrometer2-USB-v1.0.py     (Dev version of this program (uses USB camera on a Debian PC (May or mway not work for you, probably won't work on the Pi!)
-* specFunctions.py                (A library of funtions including: Wavelength to RGB, SavGol filter from Scipy, Peak detect from peakutils, readcal and writecal.
+* PySpectrometer2-USB-v1.0.py     (Dev version of this program (uses USB camera on a Debian PC (May or may not work for you, probably won't work on the Pi!)
+* specFunctions.py                (A library of functions including: Wavelength to RGB, SavGol filter from Scipy, Peak detect from peakutils, readcal and writecal.
 
 
 To run the program, first make it executable by running: chmod +x PySpectrometer2-Picam2-v1.0.py
@@ -155,19 +155,19 @@ An excellent choice for this is daylight, as well defined Fraunhoffer lines are 
 
 ## Calibration
 
-This version of the PySpectrometer performs Polynomial curve fitting of the user provided calibration wavelengths. This procedure if done with care with result in a precision instument!
+This version of the PySpectrometer performs Polynomial curve fitting of the user provided calibration wavelengths. This procedure if done with care with result in a precision instrument!
 
-When light from a diffaction grating falls upon a flat sensor the dispersion of light is not linear, and so calibration with just two data points (as in the old version of this software) will result in innacurate readings. This nonlinearity is likely compounded by additional nonlinearities introduced by the camera lenses. To address the nonlinearity, the user must provide the pixel positions of at least 3 known wavelengths (4 to 6 is highly recommended for high accuracy!). This information is then used by the program to compute the wavelengths of every single pixel position of the sensor.
+When light from a diffraction grating falls upon a flat sensor the dispersion of light is not linear, and so calibration with just two data points (as in the old version of this software) will result in inaccurate readings. This nonlinearity is likely compounded by additional nonlinearities introduced by the camera lenses. To address the nonlinearity, the user must provide the pixel positions of at least 3 known wavelengths (4 to 6 is highly recommended for high accuracy!). This information is then used by the program to compute the wavelengths of every single pixel position of the sensor.
 
 Where 3 wavelengths are used for calibration, the software will perform a 2nd order polynomial fit (Reasonably accurate)
 
-Where 4 or more wavelengths are used, the software will perform a 3rd order polymonial fit (Very accurate)
+Where 4 or more wavelengths are used, the software will perform a 3rd order polynomial fit (Very accurate)
 
 Assuming your physical spectrometer setup is rigid and robust (not held together with gravity, tape or hot glue!), calibration will only need to be done once (Data is saved to a file called: caldata.txt), and therafter when any change is made to the physical setup.
 
-Direct your Spectrometer at a light source with many discrete emission lines. A target illuminated by Lasers would be an exellent (though very expensive!) choice! An inexpensive alternative is a Fluorescent tube.
+Direct your Spectrometer at a light source with many discrete emission lines. A target illuminated by Lasers would be an excellent (though very expensive!) choice! An inexpensive alternative is a Fluorescent tube.
 
-You should be able to identify several peaks in your graph, now you need to match them up with known good data. For serious work I would recommend an academic resource such as: https://physics.nist.gov/PhysRefData/Handbook/Tables/mercurytable2.htm however in the spirit of citizen science (and because fluorescent lamps are somewhat variable in manufacture), I would recommend this wkipedia article to get you started: https://en.wikipedia.org/wiki/Fluorescent_lamp have a read, and scroll down to the section called: Phosphor composition. In here you will find emission spectra of a variety of fluorecent lamps!
+You should be able to identify several peaks in your graph, now you need to match them up with known good data. For serious work I would recommend an academic resource such as: https://physics.nist.gov/PhysRefData/Handbook/Tables/mercurytable2.htm however in the spirit of citizen science (and because fluorescent lamps are somewhat variable in manufacture), I would recommend this wikipedia article to get you started: https://en.wikipedia.org/wiki/Fluorescent_lamp have a read, and scroll down to the section called: Phosphor composition. In here you will find emission spectra of a variety of fluorescent lamps!
 
 Likely the most useful is this graph: https://commons.wikimedia.org/wiki/File:Fluorescent_lighting_spectrum_peaks_labeled_with_colored_peaks_added.png
 
@@ -180,7 +180,7 @@ These are the notable visible peaks:
 * 12 611.6   (Europium)
 * 14 631.1   (Europium)
 
-Once you have identified some peaks, at least 3, but even better 4 to 6, firts press 'h' to goggle on peak hold, this will stabilize the graph, and even allow you to switch off the light source!
+Once you have identified some peaks, at least 3, but even better 4 to 6, first press 'h' to toggle on peak hold, this will stabilize the graph, and even allow you to switch off the light source!
 
 Press the 'p' key on the keyboard. This will toggle on the pixel measuring crosshairs, move the crosshairs to each of your peaks, and click once the crosshairs are aligned with the 'flagpole' of the wavelength marker.
 Rinse and repeat for your identified peaks. (Note it makes sense to do this from left to right!)
@@ -193,7 +193,7 @@ For each pixel number, enter the identified wavelength.
 ![Screenshot](media/console.png)
 
 Once you have entered the wavelengths for each data point, the software will recalibrate the graticule and its internal representation of all the wavelength data.
-In the console, it will print out the value of R-Squared. This value will give an indication of how well the calulated data matches your input data. The closer this value is to 1, the more accurately you recorded your wavelengths! for example a six nines fit (0.999999xxxx) is excellent, and 5 nines is good. If it is a way off, one or more of your identified wavlengths may be incorrect, and you should repeat the calibaration procedure! (Press 'x' to clear the points, and repeat the calibration procedure)
+In the console, it will print out the value of R-Squared. This value will give an indication of how well the calculated data matches your input data. The closer this value is to 1, the more accurately you recorded your wavelengths! for example a six nines fit (0.999999xxxx) is excellent, and 5 nines is good. If it is a way off, one or more of your identified wavelengths may be incorrect, and you should repeat the calibaration procedure! (Press 'x' to clear the points, and repeat the calibration procedure)
 
 ### Check your work
 Refer back to the graph from the wiki, can you identify with a reasonable degree of accuracy other peaks? (bearing in mind your fluorescent lamp may differ from the one on the wiki!).
@@ -214,7 +214,7 @@ The type of inputs will depend on oddly the type of screen!
 
 The hyperpixel displays consume all of the GPIO on the Pi, however buttons could easily be provided if they talk HID.
 
-DSI displays could be used, however seeimingly that would require the user roll back to legacy camera support!
+DSI displays could be used, however seemingly that might require the user roll back to legacy camera support!
 
 HDMI displays can be used, and this would free up all the GPIO.
 
