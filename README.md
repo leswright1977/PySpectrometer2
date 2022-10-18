@@ -79,11 +79,11 @@ The job is simple: Mount the zoom lens on the picam, and mount the spectroscope 
 
 The hardware consists of:
 
-A commercial Diffraction grating Spectroscope https://www.patonhawksley.com/product-page/benchtop-spectroscope
+- A commercial Diffraction grating Spectroscope https://www.patonhawksley.com/product-page/benchtop-spectroscope
 
-A Raspberry Pi Camera (with an M12 Thread) https://thepihut.com/products/raspberry-pi-camera-adjustable-focus-5mp
+- A Raspberry Pi Camera (with an M12 Thread) https://thepihut.com/products/raspberry-pi-camera-adjustable-focus-5mp
 
-A CCTV Lens with Zoom (M12 Thread) (Search eBay for F1.6 zoom lens)
+- A CCTV Lens with Zoom (M12 Thread) (Search eBay for F1.6 zoom lens)
 
 Everything is assembled on an aluminium base (note the Camera is not cooled, the heatsink was a conveniently sized piece of aluminium.)
 
@@ -97,11 +97,11 @@ The build is as simple as the standard version, however, uses a miniature pocket
 
 ![Screenshot](media/minispect.png)
 
-A commercial Diffraction grating Pocket Spectroscope: https://www.patonhawksley.com/product-page/pocket-spectroscope
+- A commercial Diffraction grating Pocket Spectroscope: https://www.patonhawksley.com/product-page/pocket-spectroscope
 
-A Raspberry Pi Camera (with an M12 Thread): https://thepihut.com/products/raspberry-pi-camera-adjustable-focus-5mp
+- A Raspberry Pi Camera (with an M12 Thread): https://thepihut.com/products/raspberry-pi-camera-adjustable-focus-5mp
 
-M12x0.5 F2.0 Fixed 12mm Focal length Lens: (search eBay)
+- M12x0.5 F2.0 Fixed 12mm Focal length Lens: (search eBay)
 
 
 
