@@ -227,8 +227,20 @@ The following command line options must be considered:
 - Video device number
 - Framerate
 
+For an external USB camera, fist find the device by issuing:
+**v4l2-ctl --list-devices**
 
+If your camera is /dev/video3 and you require a framerate of 15fps you would issue:
 
+**./PySpectrometer2-USB-v1.0.py --device 3 --fps 15**
+
+If you want fine control over camera settings: **sudo apt-get install guvcview**
+
+You can run guvcview at the same time as the spectrometer software, so long as you disable guvcview preview, like this:
+
+(assuming your device is /dev/video3)
+
+**guvcview --device /dev/video1 --control_panel**
 
 # Future work:
 
