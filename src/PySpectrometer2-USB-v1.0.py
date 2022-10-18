@@ -23,9 +23,6 @@ All old features have been kept, including peak hold, peak detect, Savitsky Gola
 
 For instructions please consult the readme!
 
-Future work:
-It is planned to add in GPIO support, to allow the use of buttons and knobs to control the Spectrometer.
-
 '''
 
 
