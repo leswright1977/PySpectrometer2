@@ -7,7 +7,7 @@ This is a more advanced, but more flexible version of the original program. It c
 This program, hardware design, and associated information is Open Source (see Licence), but if you have gotten value from these kinds of projects and think they are worth something, please consider donating: https://paypal.me/leslaboratory?locale.x=en_GB
 This project is a follow on from: https://github.com/leswright1977/PySpectrometer 
 
-This readme is accompanied by youtube videos, whowing how to build and use the spectrometer!
+This readme is accompanied by youtube videos, showing how to build and use the spectrometer!
 Visit my Youtube Channel at: https://www.youtube.com/leslaboratory
 
 ## Rationale for the new build
