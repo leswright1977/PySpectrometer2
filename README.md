@@ -1,6 +1,6 @@
 # PySpectrometer2
 
-The Second Incarnation of the Spectrometer project!
+The second incarnation of the Spectrometer project!
 
 This is a more advanced, but more flexible version of the original program. It changes the spectrometer from 'toy' to serious instrument, which can easily compete with commercial units consting thousands of dollars!
 
