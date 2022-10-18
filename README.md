@@ -108,7 +108,11 @@ M12x0.5 F2.0 Fixed 12mm Focal length Lens: (search eBay)
 
 ## Stand alone unit
 
-WHAT ABOUT THE COMPACT UNIT WITH SCREEN??
+![Screenshot](media/hyperpixel.png)
+
+Above, a compact unit built with a Hyperpixel 4.0 screen, running on fullscreen mode (800 x 480)
+
+https://shop.pimoroni.com/products/hyperpixel-4?variant=12569539706963
 
 ## Custom units
 
@@ -147,8 +151,11 @@ In /src you will find:
 * specFunctions.py                (A library of functions including: Wavelength to RGB, SavGol filter from Scipy, Peak detect from peakutils, readcal and writecal.
 
 
-To run the program, first make it executable by running: chmod +x PySpectrometer2-Picam2-v1.0.py
-Run by typing: ./PySpectrometer2-Picam2-v1.0.py
+To run the program, first make it executable by running: **chmod +x PySpectrometer2-Picam2-v1.0.py**
+Run by typing: **./PySpectrometer2-Picam2-v1.0.py**
+
+Note to also display the waterfall display, run with the option: **./PySpectrometer2-Picam2-v1.0.py --waterfall**
+To run in fullscreen mode (perform calibration in standard mode first), run with the option: **./PySpectrometer2-Picam2-v1.0.py --waterfall**
 
 When first started, the spectrometer is in an uncalibrated state! You must therefore perform the calibration procedure, but at this stage you should be able to focus and align your camera with your spectroscope using the preview window. Is is expected that red light is on the right, and blue-violet on the left.
 An excellent choice for this is daylight, as well defined Fraunhoffer lines are indicative of good camera focus.
