@@ -60,6 +60,7 @@ Resolution/accuracy seems is subnanometer with a well built and calibrated setup
 
 Visit my Youtube Channel at: https://www.youtube.com/leslaboratory
 
+## Standard Spectroscope
 
 ![Screenshot](media/scope.png)
 
@@ -77,7 +78,7 @@ Everything is assembled on an aluminium base (note the Camera is not cooled, the
 
 ![Screenshot](media/pi.png)
 
-For the MINIATURE version the hardware is:
+## Miniture Spectroscope
 
 Screenshot
 
@@ -89,9 +90,13 @@ M12x0.5 F2.0 Fixed 12mm Focal length Lens: (search eBay)
 
 ![Screenshot](media/minispect.png)
 
+## Stand alone unit
+
 WHAT ABOUT THE COMPACT UNIT WITH SCREEN??
 
+## Custom units
 
+There is nothing to stop you building a spectrometer head with a couple of razor blades, a diffraction grating, a couple of lenses and a Picam! The software should work just the same as shown in this readme!
 
 
 # User Guide
