@@ -62,6 +62,9 @@ Visit my Youtube Channel at: https://www.youtube.com/leslaboratory
 
 ## Standard Spectroscope
 
+For the standard build, I used a pocket spectroscope(link below) coupled into a picamera by means of a zoom lens.
+The job is simple: Mount the zoom lens on the picam, and mount the spectroscope in front, and focus the camera on the spectrum, until it is sharp and clear. Use either daylight (which has pronounced Fraunhoffer lines) or a fluorecent lamp, which has pronounced emission lines. The following command will help you: libcamera-hello -t 0
+
 ![Screenshot](media/scope.png)
 
 The hardware consists of:
@@ -80,7 +83,9 @@ Everything is assembled on an aluminium base (note the Camera is not cooled, the
 
 ## Miniture Spectroscope
 
-Screenshot
+The build is as simple as the standard version, however uses a miniature pocket spectrometer.
+
+![Screenshot](media/minispect.png)
 
 A commercial Diffraction grating Pocket Spectroscope: https://www.patonhawksley.com/product-page/pocket-spectroscope
 
@@ -88,7 +93,7 @@ A Raspberry Pi Camera (with an M12 Thread): https://thepihut.com/products/raspbe
 
 M12x0.5 F2.0 Fixed 12mm Focal length Lens: (search eBay)
 
-![Screenshot](media/minispect.png)
+
 
 ## Stand alone unit
 
