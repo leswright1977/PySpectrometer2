@@ -147,12 +147,15 @@ First, clone this repo!
 In /src you will find:
 
 * PySpectrometer2-Picam2-v1.0.py  (PySpectrometer for Raspberry Pi)
-* PySpectrometer2-USB-v1.0.py     (USB version of this program (This is for USB Cameras See end of Readme)
+* PySpectrometer2-USB-v1.0.py     (USB version of this program (This is for USB Cameras See end of Readme)).
 * specFunctions.py                (A library of functions including: Wavelength to RGB, SavGol filter from Scipy, Peak detect from peakutils, readcal and writecal.
 
 ## Dependencies
 
 Run: **sudo apt-get install python3-opencv**
+
+**Also note, this build is designed for Raspberry Pi OS Bullseye, and will only work with the new libcamera based python library (picamera2)**
+It will **not** work with older versions of Raspbery Pi OS. You **will** however be able to use PySpectrometer2-USB-v1.0.py with an external USB camera with other Operating Systems.
 
 
 To run the program, first make it executable by running: **chmod +x PySpectrometer2-Picam2-v1.0.py**
