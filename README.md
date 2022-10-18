@@ -152,6 +152,7 @@ In /src you will find:
 
 
 To run the program, first make it executable by running: **chmod +x PySpectrometer2-Picam2-v1.0.py**
+
 Run by typing: **./PySpectrometer2-Picam2-v1.0.py**
 
 Note to also display the waterfall display, run with the option: **./PySpectrometer2-Picam2-v1.0.py --waterfall**
