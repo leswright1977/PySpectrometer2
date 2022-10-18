@@ -108,9 +108,9 @@ The build is as simple as the standard version, however, uses a miniature pocket
 
 ## Stand alone unit
 
-![Screenshot](media/hyperpixel.png)
+![Screenshot](media/mini.png)
 
-Above, a compact unit built with a Hyperpixel 4.0 screen, running on fullscreen mode (800 x 480)
+Above, a compact unit built with a Hyperpixel 4 inch screen, running on fullscreen mode (800 x 480)
 
 https://shop.pimoroni.com/products/hyperpixel-4?variant=12569539706963
 
