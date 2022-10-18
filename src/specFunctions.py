@@ -356,11 +356,11 @@ def readcal(width):
 	if message == 1:
 		calmsg1 = "Calibrated!!"
 		calmsg2 = "Using 3 cal points"
-		calmsg3 = "2nd order polyfit"
+		calmsg3 = "2nd Order Polyfit"
 	if message == 2:
 		calmsg1 = "Calibrated!!!"
 		calmsg2 = "Using > 3 cal points"
-		calmsg3 = "3rd order polyfit"
+		calmsg3 = "3rd Order Polyfit"
 
 	returndata = []
 	returndata.append(wavelengthData)

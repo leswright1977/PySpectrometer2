@@ -37,6 +37,8 @@ import base64
 import argparse
 
 parser = argparse.ArgumentParser()
+parser.add_argument("--device", type=int, default=0, help="Video Device number e.g. 0, use v4l2-ctl --list-devices")
+parser.add_argument("--fps", type=int, default=30, help="Frame Rate e.g. 30")
 group = parser.add_mutually_exclusive_group()
 group.add_argument("--fullscreen", help="Fullscreen (Native 800*480)",action="store_true")
 group.add_argument("--waterfall", help="Enable Waterfall (Windowed only)",action="store_true")
@@ -49,20 +51,32 @@ if args.fullscreen:
 if args.waterfall:
 	print("Waterfall display enabled")
 	dispWaterfall = True
+	
+if args.device:
+	dev = args.device
+else:
+	dev = 0
+	
+if args.fps:
+	fps = args.fps
+else:
+	fps = 30
 
 frameWidth = 800
 frameHeight = 600
 
 
 #init video
-cap = cv2.VideoCapture('/dev/video0', cv2.CAP_V4L)
+cap = cv2.VideoCapture('/dev/video'+str(dev), cv2.CAP_V4L)
 #cap = cv2.VideoCapture(0)
 print("[info] W, H, FPS")
 cap.set(cv2.CAP_PROP_FRAME_WIDTH,frameWidth)
 cap.set(cv2.CAP_PROP_FRAME_HEIGHT,frameHeight)
+cap.set(cv2.CAP_PROP_FPS,fps)
 print(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
 print(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
 print(cap.get(cv2.CAP_PROP_FPS))
+cfps = (cap.get(cv2.CAP_PROP_FPS))
 
 
 title1 = 'PySpectrometer 2 - Spectrograph'
@@ -156,7 +170,6 @@ def snapshot(savedata):
 	f.close()
 	message = "Last Save: "+timenow
 	return(message)
-
 
 while(cap.isOpened()):
 	# Capture frame-by-frame
@@ -320,9 +333,10 @@ while(cap.isOpened()):
 		cv2.line(spectrum_vertical,(0,160),(frameWidth,160),(255,255,255),1)
 		#print the messages
 		cv2.putText(spectrum_vertical,calmsg1,(490,15),font,0.4,(0,255,255),1, cv2.LINE_AA)
-		cv2.putText(spectrum_vertical,calmsg2,(490,33),font,0.4,(0,255,255),1, cv2.LINE_AA)
-		cv2.putText(spectrum_vertical,calmsg3,(490,51),font,0.4,(0,255,255),1, cv2.LINE_AA)
+		cv2.putText(spectrum_vertical,calmsg3,(490,33),font,0.4,(0,255,255),1, cv2.LINE_AA)
+		cv2.putText(spectrum_vertical,"Framerate: "+str(cfps),(490,51),font,0.4,(0,255,255),1, cv2.LINE_AA)
 		cv2.putText(spectrum_vertical,saveMsg,(490,69),font,0.4,(0,255,255),1, cv2.LINE_AA)
+		#Second column
 		cv2.putText(spectrum_vertical,holdmsg,(640,15),font,0.4,(0,255,255),1, cv2.LINE_AA)
 		cv2.putText(spectrum_vertical,"Savgol Filter: "+str(savpoly),(640,33),font,0.4,(0,255,255),1, cv2.LINE_AA)
 		cv2.putText(spectrum_vertical,"Label Peak Width: "+str(mindist),(640,51),font,0.4,(0,255,255),1, cv2.LINE_AA)

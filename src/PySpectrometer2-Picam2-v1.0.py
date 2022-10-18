@@ -222,7 +222,7 @@ while True:
 		dataminus1 = bwimage[halfway-1,i]
 		datazero = bwimage[halfway,i] #pull the pixel data from the halfway mark
 		dataplus1 = bwimage[halfway+1,i]
-		data = (int(dataminus1)+int(datazero)+int(dataplus1))/3
+		data = (int(dataminus1)+int(datazero)+int(dataplus1))/3		
 		data = np.uint8(data)
 				
 		
