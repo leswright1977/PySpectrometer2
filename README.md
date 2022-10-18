@@ -56,7 +56,7 @@ Below the tuning curve of Rhodamine 6G
 
 The hardware is simple and widely avilable and so should be easily to duplicate without critical alignment or difficult construction. The hard work was developing the software.
 
-Resolution/accuracy seems is subnanometre with a well built and calibrated setup, which is excellent for the price of the hardware, especially when you consider the price of commercial components such as the Hamamatsu C12880MA breakout boards which run north of 300 bucks, and has a resolution of 15nm. Of course, this build is physically much larger, but not enormous!
+Resolution/accuracy seems is subnanometer with a well built and calibrated setup, which is excellent for the price of the hardware, especially when you consider the price of commercial components such as the Hamamatsu C12880MA breakout boards which run north of 300 bucks, and has a resolution of 15nm. Of course, this build is physically much larger, but not enormous!
 
 Visit my Youtube Channel at: https://www.youtube.com/leslaboratory
 
@@ -88,6 +88,11 @@ A Raspberry Pi Camera (with an M12 Thread): https://thepihut.com/products/raspbe
 M12x0.5 F2.0 Fixed 12mm Focal length Lens: https://www.ebay.co.uk/itm/114551239930
 
 ![Screenshot](media/minispect.png)
+
+WHAT ABOUT THE COMPACT UNIT WITH SCREEN??
+
+
+
 
 # User Guide
 
