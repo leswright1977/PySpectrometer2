@@ -220,7 +220,7 @@ Calibration data is written to a file (caldata.txt), so calibration is retained 
 
 # USB Camera Version
 
-A version of the software is provided for those who wsh to use thrird party USB cameras with the Pi, or even a USB camera with any other Linux box!
+A version of the software is provided for those who wish to use third party USB cameras with the Pi, or even a USB camera with any other Linux box!
 
 The following command line options must be considered:
 
