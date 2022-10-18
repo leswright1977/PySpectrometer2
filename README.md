@@ -150,6 +150,10 @@ In /src you will find:
 * PySpectrometer2-USB-v1.0.py     (USB version of this program (This is for USB Cameras See end of Readme)
 * specFunctions.py                (A library of functions including: Wavelength to RGB, SavGol filter from Scipy, Peak detect from peakutils, readcal and writecal.
 
+## Dependencies
+
+Run: **sudo apt-get install python3-opencv**
+
 
 To run the program, first make it executable by running: **chmod +x PySpectrometer2-Picam2-v1.0.py**
 
@@ -213,6 +217,17 @@ In the screenshot above above, a well defined peak (not used as a caibration val
 For unlabelled peaks, pressing 'm' will toggle on the measurement crosshairs, that display wavelength for any given position.
 
 Calibration data is written to a file (caldata.txt), so calibration is retained when the program is restarted.
+
+# USB Camera Version
+
+A version of the software is provided for those who wsh to use thrird party USB cameras with the Pi, or even a USB camera with any other Linux box!
+
+The following command line options must be considered:
+
+- Video device number
+- Framerate
+
+
 
 
 # Future work:
