@@ -126,7 +126,7 @@ intensity = [0] * frameWidth #array for intensity data...full of zeroes
 
 holdpeaks = False #are we holding peaks?
 measure = False #are we measuring?
-recPixels = False #are we measing pixels and recording clicks?
+recPixels = False #are we measuring pixels and recording clicks?
 
 
 #messages
