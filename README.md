@@ -126,7 +126,7 @@ There is nothing to stop you building a spectrometer head with a couple of razor
 ## Key Bindings:
 
 ### Graph Display Controls
-* t/g = Analogue Gain up/down
+* t/g = Analogue Gain up/down (not available on USB version, see below for alternative camera controls)
 * o/l = savpoly up/down
 * i/k = peak width up/down
 * u/j = Label threshold up/down
