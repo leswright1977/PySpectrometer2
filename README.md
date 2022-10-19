@@ -14,7 +14,7 @@ Visit my Youtube Channel at: https://www.youtube.com/leslaboratory
 
 Recent changes in the OS (Bullseye) broke the old version e.g broken video, broken dependencies and so on. PySpectrometer v3.0 was hacked and fixed as of 3.1), however I have been thinking about a rewrite of this software for a while, so here it is!
 
-Accuracy has been significantly improved by implementing multi-wavelength calibration and implementing a Polynomial regression data fit to compute wavelengths as precisely as possible across the measured range.
+Accuracy has been significantly improved by implementing multi-wavelength calibration and a Polynomial regression data fit to compute wavelengths as precisely as possible across the measured range.
 
 Tk has been dropped as the GUI to allow easier maintainability, extendability and flexibility. The new interface is coded entirely in OpenCV, and whilst things like trackbars and buttons are now dropped in favour of keybindings, this frees up screen real estate, and allows the support of resizing without fuss, and fullscreen mode is now supported!
 
