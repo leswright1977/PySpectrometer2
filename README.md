@@ -66,7 +66,7 @@ Below the tuning curve of Rhodamine 6G
 
 The hardware is simple and widely available and so should be easily to duplicate without critical alignment or difficult construction. The hard work was developing the software.
 
-Resolution/accuracy seems to be subnanometer with a well built and calibrated setup, which is excellent for the price of the hardware, especially when you consider the price of commercial components such as the Hamamatsu C12880MA breakout boards which run north of 300 bucks, and has a resolution of 15nm. Of course, this build is physically much larger, but not enormous!
+Resolution/accuracy seems to be +/- 1nm with a well built and calibrated setup, which is excellent for the price of the hardware, especially when you consider the price of commercial components such as the Hamamatsu C12880MA breakout boards which run north of 300 bucks, and has a resolution of 15nm. Of course, this build is physically much larger, but not enormous!
 
 
 
