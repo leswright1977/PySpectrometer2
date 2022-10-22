@@ -221,6 +221,13 @@ For unlabelled peaks, pressing 'm' will toggle on the measurement crosshairs, th
 
 Calibration data is written to a file (caldata.txt), so calibration is retained when the program is restarted.
 
+# Saving Data
+
+Pressing 's' will save all data. It saves graph and waterfall data as PNG images, with date and time as part of the filename.
+Additionally it saves graph data as CSV that can then be opened in other programs such as OpenOffice on the Pi.
+
+![Screenshot](media/csv.png)
+
 # USB Camera Version
 
 A version of the software is provided for those who wish to use third party USB cameras with the Pi, or even a USB camera with any other Linux box!
