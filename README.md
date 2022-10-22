@@ -10,6 +10,8 @@ This project is a follow on from: https://github.com/leswright1977/PySpectromete
 This readme is accompanied by youtube videos, showing how to build and use the spectrometer!
 Visit my Youtube Channel at: https://www.youtube.com/leslaboratory
 
+There is a video on this project here: https://youtu.be/SCp9T8NKfnM
+
 ## Rationale for the new build
 
 Recent changes in the OS (Bullseye) broke the old version e.g broken video, broken dependencies and so on. PySpectrometer v3.0 was hacked and fixed as of 3.1), however I have been thinking about a rewrite of this software for a while, so here it is!
