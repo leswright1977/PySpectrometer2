@@ -239,10 +239,7 @@ Pressing the 'm' key will toggle a measurement cursor. This can be used (once th
 Below: Another example of measurement cursors on a weak line at 437nm. This is from a high pressure Sodium lamp as is in fact likely Mercury (HP Sodium lamps contain Xenon, Mecury and Sodium). 
 
 The prominent peak at 589nm is Sodium.
-Of the other peaks:
-546.6nm is Mercury
-569nm is Sodium, 
-577nm and 579nm (unlabelled, but just to the left of the 589nm Sodium peak) are both Mercury.
+Of the other peaks: 546.6nm is Mercury, 568.9nm is Sodium, 577nm and 579nm (unlabelled, but just to the left of the 589nm Sodium peak) are both Mercury.
 
 ![Screenshot](media/high-pressure-sodium.png)
 
