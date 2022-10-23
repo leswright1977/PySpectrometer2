@@ -230,6 +230,12 @@ Additionally it saves graph data as CSV that can then be opened in other program
 
 ![Screenshot](media/csv.png)
 
+# Arbitrary measurement
+
+Pressing the 'm' key will toggle a measurement cursor. This can be used (once the intrument has been calibrated) to arbitratily measure any point on the graph. The following screenshot shows the measurement of a possible Terbium or Mercury line at 577nm
+
+![Screenshot](media/terbium-measure.png)
+
 # USB Camera Version
 
 A version of the software is provided for those who wish to use third party USB cameras with the Pi, or even a USB camera with any other Linux box!
