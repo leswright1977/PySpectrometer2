@@ -189,7 +189,7 @@ while(cap.isOpened()):
 
 		#banner image
 		decoded_data = base64.b64decode(background)
-		np_data = np.fromstring(decoded_data,np.uint8)
+		np_data = np.frombuffer(decoded_data,np.uint8)
 		img = cv2.imdecode(np_data,3)
 		messages = img
 
