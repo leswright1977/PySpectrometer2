@@ -5,7 +5,7 @@ PySpectrometer2 Les Wright 2022
 https://www.youtube.com/leslaboratory
 https://github.com/leswright1977
 
-This project is a follow on from: https://github.com/leswright1977/PySpectrometer 
+This project is a follow on from: https://github.com/leswright1977/PySpectrometer
 
 This is a more advanced, but more flexible version of the original program. Tk Has been dropped as the GUI to allow fullscreen mode on Raspberry Pi systems and the iterface is designed to fit 800*480 screens, which seem to be a common resolutin for RPi LCD's, paving the way for the creation of a stand alone benchtop instrument.
 
@@ -23,7 +23,6 @@ All old features have been kept, including peak hold, peak detect, Savitsky Gola
 
 For instructions please consult the readme!
 '''
-
 
 import cv2
 import time
@@ -46,8 +45,6 @@ if args.fullscreen:
 if args.waterfall:
 	print("Waterfall display enabled")
 	dispWaterfall = True
-	
-	
 
 frameWidth = 800
 frameHeight = 600
@@ -69,8 +66,6 @@ picam2.start()
 #picam2.set_controls({"AnalogueGain": 10.0}) #Default 1
 #picam2.set_controls({"Brightness": 0.2}) #Default 0 range -1.0 to +1.0
 #picam2.set_controls({"Contrast": 1.8}) #Default 1 range 0.0-32.0
-
-
 
 title1 = 'PySpectrometer 2 - Spectrograph'
 title2 = 'PySpectrometer 2 - Waterfall'
@@ -97,7 +92,7 @@ thresh = 20 #Threshold max val 100
 
 calibrate = False
 
-clickArray = [] 
+clickArray = []
 cursorX = 0
 cursorY = 0
 def handle_mouse(event,x,y,flags,param):
@@ -107,14 +102,13 @@ def handle_mouse(event,x,y,flags,param):
 	mouseYOffset = 160
 	if event == cv2.EVENT_MOUSEMOVE:
 		cursorX = x
-		cursorY = y	
+		cursorY = y
 	if event == cv2.EVENT_LBUTTONDOWN:
 		mouseX = x
 		mouseY = y-mouseYOffset
 		clickArray.append([mouseX,mouseY])
 #listen for click on plot window
 cv2.setMouseCallback(title1,handle_mouse)
-
 
 font=cv2.FONT_HERSHEY_SIMPLEX
 
@@ -123,7 +117,6 @@ intensity = [0] * frameWidth #array for intensity data...full of zeroes
 holdpeaks = False #are we holding peaks?
 measure = False #are we measuring?
 recPixels = False #are we measuring pixels and recording clicks?
-
 
 #messages
 msg1 = ""
@@ -163,7 +156,6 @@ def snapshot(savedata):
 	f.close()
 	message = "Last Save: "+timenow
 	return(message)
-
 
 while True:
 	# Capture frame-by-frame
@@ -210,16 +202,15 @@ while True:
 	#Now process the intensity data and display it
 	#intensity = []
 	for i in range(cols):
-		#data = bwimage[halfway,i] #pull the pixel data from the halfway mark	
+		#data = bwimage[halfway,i] #pull the pixel data from the halfway mark
 		#print(type(data)) #numpy.uint8
 		#average the data of 3 rows of pixels:
 		dataminus1 = bwimage[halfway-1,i]
 		datazero = bwimage[halfway,i] #pull the pixel data from the halfway mark
 		dataplus1 = bwimage[halfway+1,i]
-		data = (int(dataminus1)+int(datazero)+int(dataplus1))/3		
+		data = (int(dataminus1)+int(datazero)+int(dataplus1))/3
 		data = np.uint8(data)
-				
-		
+
 		if holdpeaks == True:
 			if data > intensity[i]:
 				intensity[i] = data
@@ -251,19 +242,17 @@ while True:
 
 		hsv = cv2.cvtColor(waterfall, cv2.COLOR_BGR2HSV)
 
-
 	#Draw the intensity data :-)
 	#first filter if not holding peaks!
-	
+
 	if holdpeaks == False:
 		intensity = savitzky_golay(intensity,17,savpoly)
 		intensity = np.array(intensity)
 		intensity = intensity.astype(int)
-		holdmsg = "Holdpeaks OFF" 
+		holdmsg = "Holdpeaks OFF"
 	else:
 		holdmsg = "Holdpeaks ON"
-		
-	
+
 	#now draw the intensity data....
 	index=0
 	for i in intensity:
@@ -275,7 +264,6 @@ while True:
 		cv2.line(graph, (index,320), (index,320-i), (b,g,r), 1)
 		cv2.line(graph, (index,319-i), (index,320-i), (0,0,0), 1,cv2.LINE_AA)
 		index+=1
-
 
 	#find peaks and label them
 	textoffset = 12
@@ -291,7 +279,6 @@ while True:
 		cv2.putText(graph,str(wavelength)+'nm',(i-textoffset,height-3),font,0.4,(0,0,0),1, cv2.LINE_AA)
 		#flagpoles
 		cv2.line(graph,(i,height),(i,height+10),(0,0,0),1)
-
 
 	if measure == True:
 		#show the cursor!
@@ -315,11 +302,8 @@ while True:
 			cv2.circle(graph,(mouseX,mouseY),5,(0,0,0),-1)
 			#we can display text :-) so we can work out wavelength from x-pos and display it ultimately
 			cv2.putText(graph,str(mouseX),(mouseX+5,mouseY),cv2.FONT_HERSHEY_SIMPLEX,0.4,(0,0,0))
-	
 
-
-
-	#stack the images and display the spectrum	
+	#stack the images and display the spectrum
 	spectrum_vertical = np.vstack((messages,cropped, graph))
 	#dividing lines...
 	cv2.line(spectrum_vertical,(0,80),(frameWidth,80),(255,255,255),1)
@@ -337,7 +321,7 @@ while True:
 	cv2.imshow(title1,spectrum_vertical)
 
 	if dispWaterfall == True:
-		#stack the images and display the waterfall	
+		#stack the images and display the waterfall
 		waterfall_vertical = np.vstack((messages,cropped, waterfall))
 		#dividing lines...
 		cv2.line(waterfall_vertical,(0,80),(frameWidth,80),(255,255,255),1)
@@ -358,11 +342,10 @@ while True:
 		cv2.putText(waterfall_vertical,calmsg3,(490,33),font,0.4,(0,255,255),1, cv2.LINE_AA)
 		cv2.putText(waterfall_vertical,saveMsg,(490,51),font,0.4,(0,255,255),1, cv2.LINE_AA)
 		cv2.putText(waterfall_vertical,"Gain: "+str(picamGain),(490,69),font,0.4,(0,255,255),1, cv2.LINE_AA)
-		
+
 		cv2.putText(waterfall_vertical,holdmsg,(640,15),font,0.4,(0,255,255),1, cv2.LINE_AA)
 
 		cv2.imshow(title2,waterfall_vertical)
-
 
 	keyPress = cv2.waitKey(1)
 	if keyPress == ord('q'):
@@ -451,12 +434,7 @@ while True:
 			if picamGain <=0:
 				picamGain = 0.0
 			picam2.set_controls({"AnalogueGain": picamGain})
-			print("Camera Gain: "+str(picamGain))								
-				
+			print("Camera Gain: "+str(picamGain))
 
-
- 
 #Everything done
 cv2.destroyAllWindows()
-
-
