@@ -204,11 +204,9 @@ while True:
 		cv2.putText(graph,str(positiondata[1])+'nm',(positiondata[0]-textoffset,12),font,0.4,(0,0,0),1, cv2.LINE_AA)
 
 	#horizontal lines
-	for i in range (320):
-		if i>=64:
-			if i%64==0: #suppress the first line then draw the rest...
-				cv2.line(graph,(0,i),(frameWidth,i),(100,100,100),1)
-	
+	for i in range(64, 320, 64): # start at 64, increments of 64
+		cv2.line(graph,(0,i),(frameWidth,i),(100,100,100),1)
+
 	#Now process the intensity data and display it
 	#intensity = []
 	for i in range(cols):
@@ -350,10 +348,9 @@ while True:
 
 		#vertical lines every whole 50nm
 		for positiondata in fifties:
-			for i in range(162,480):
-				if i%20 == 0:
-					cv2.line(waterfall_vertical,(positiondata[0],i),(positiondata[0],i+1),(0,0,0),2)
-					cv2.line(waterfall_vertical,(positiondata[0],i),(positiondata[0],i+1),(255,255,255),1)
+			for i in range(162, 480, 20):
+				cv2.line(waterfall_vertical,(positiondata[0],i),(positiondata[0],i+1),(0,0,0),2)
+				cv2.line(waterfall_vertical,(positiondata[0],i),(positiondata[0],i+1),(255,255,255),1)
 			cv2.putText(waterfall_vertical,str(positiondata[1])+'nm',(positiondata[0]-textoffset,475),font,0.4,(0,0,0),2, cv2.LINE_AA)
 			cv2.putText(waterfall_vertical,str(positiondata[1])+'nm',(positiondata[0]-textoffset,475),font,0.4,(255,255,255),1, cv2.LINE_AA)
 
