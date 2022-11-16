@@ -239,15 +239,11 @@ def readcal(width):
 	#read in the calibration points
 	#compute second or third order polynimial, and generate wavelength array!
 	#Les Wright 28 Sept 2022
-	errors = 0
-	message = 0 #variable to store returned message data
+	errors = False
 	try:
 		print("Loading calibration data...")
 		file = open('caldata.txt', 'r')
-	except:
-		errors = 1
 
-	try:
 		#read both the pixel numbers and wavelengths into two arrays.
 		lines = file.readlines()
 		line0 = lines[0].strip() #strip newline
@@ -256,28 +252,26 @@ def readcal(width):
 		line1 = lines[1].strip()
 		wavelengths = line1.split(',')
 		wavelengths = [float(i) for i in wavelengths]#convert list of strings to floats
-	except:
-		errors = 1
 
-	try:
 		if (len(pixels) != len(wavelengths)):
-			#The Calibration points are of unequal length!
-			errors = 1
-		if (len(pixels) < 3):
-			#The Cal data contains less than 3 pixels!
-			errors = 1
-		if (len(wavelengths) < 3):
-			#The Cal data contains less than 3 wavelengths!
-			errors = 1
-	except:
-		errors = 1
+			raise Exception("The Calibration points are of unequal length!")
 
-	if errors == 1:
+		if (len(pixels) < 3):
+			raise Exception("The Cal data contains less than 3 pixels!")
+
+		if (len(wavelengths) < 3):
+			raise Exception("The Cal data contains less than 3 wavelengths!")
+
+	except:
 		print("Loading of Calibration data failed (missing caldata.txt or corrupted data!")
 		print("Loading placeholder data...")
 		print("You MUST perform a Calibration to use this software!\n\n")
 		pixels = [0,400,800]
 		wavelengths = [380,560,750]
+		errors = True
+		calmsg1 = "UNCALIBRATED!"
+		calmsg2 = "Defaults loaded"
+		calmsg3 = "Perform Calibration!"
 
 	#create an array for the data...
 	wavelengthData = []
@@ -295,10 +289,11 @@ def readcal(width):
 			wavelength = round(wavelength,6) #because seriously!
 			wavelengthData.append(wavelength)
 		print("Done! Note that calibration with only 3 wavelengths will not be accurate!")
-		if errors == 1:
-			message = 0 #return message zero(errors)
-		else:
-			message = 1 #return message only 3 wavelength cal secodn order poly (Inaccurate)
+
+		if not errors: # else leave previous message
+			calmsg1 = "Calibrated!!"
+			calmsg2 = "Using 3 cal points"
+			calmsg3 = "2nd Order Polyfit"
 
 	if (len(pixels) > 3):
 		print("Calculating third order polynomial...")
@@ -312,12 +307,7 @@ def readcal(width):
 		C2 = coefficients[2]
 		C3 = coefficients[1]
 		C4 = coefficients[0]
-		'''
-		print(C1)
-		print(C2)
-		print(C3)
-		print(C4)
-		'''
+
 		print("Generating Wavelength Data!\n\n")
 		for pixel in range(width):
 			wavelength=((C1*pixel**3)+(C2*pixel**2)+(C3*pixel)+C4)
@@ -329,8 +319,7 @@ def readcal(width):
 		#do something if it is too big!
 		predicted = []
 		#iterate over the original pixelnumber array and predict results
-		for i in pixels:
-			px = i
+		for px in pixels:
 			y=((C1*px**3)+(C2*px**2)+(C3*px)+C4)
 			predicted.append(y)
 
@@ -342,17 +331,6 @@ def readcal(width):
 
 		print("R-Squared="+str(R_sq))
 
-		message = 2 #Multiwavelength cal, 3rd order poly
-
-	if message == 0:
-		calmsg1 = "UNCALIBRATED!"
-		calmsg2 = "Defaults loaded"
-		calmsg3 = "Perform Calibration!"
-	if message == 1:
-		calmsg1 = "Calibrated!!"
-		calmsg2 = "Using 3 cal points"
-		calmsg3 = "2nd Order Polyfit"
-	if message == 2:
 		calmsg1 = "Calibrated!!!"
 		calmsg2 = "Using > 3 cal points"
 		calmsg3 = "3rd Order Polyfit"
