@@ -252,6 +252,8 @@ The following command line options must be considered:
 - Video device number
 - Framerate
 
+** Note: the expected resolution from USB cameras is 800x600, other resolutions will cause the software to crash! **
+
 For an external USB camera, first find the device by issuing:
 **v4l2-ctl --list-devices**
 
