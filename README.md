@@ -148,25 +148,28 @@ First, clone this repo!
 
 In /src you will find:
 
-* PySpectrometer2-Picam2-v1.0.py  (PySpectrometer for Raspberry Pi)
-* PySpectrometer2-USB-v1.0.py     (USB version of this program (This is for USB Cameras See end of Readme)).
-* specFunctions.py                (A library of functions including: Wavelength to RGB, SavGol filter from Scipy, Peak detect from peakutils, readcal and writecal.
+* PySpectrometer2.py  (The main program. See USB camera usage at the end of the Readme).
+* specFunctions.py    (A library of functions including: Wavelength to RGB, SavGol filter from Scipy, Peak detect from peakutils, readcal and writecal.
 
 ## Dependencies
 
 Run: **sudo apt-get install python3-opencv**
 
 **Also note, this build is designed for Raspberry Pi OS Bullseye, and will only work with the new libcamera based python library (picamera2)**
-It will **not** work with older versions of Raspbery Pi OS. You **will** however be able to use PySpectrometer2-USB-v1.0.py with an external USB camera with other Operating Systems.
+It will **not** work with older versions of Raspbery Pi OS. You **will** however be able to use with an external USB camera with other Operating Systems.
 
 
-To run the program, first make it executable by running: **chmod +x PySpectrometer2-Picam2-v1.0.py**
+To run the program, first make it executable by running: **chmod +x PySpectrometer2.py**
 
-Run by typing: **./PySpectrometer2-Picam2-v1.0.py**
+Run by typing: **./PySpectrometer2.py --X**
+Where --X is one of:
+  --picam               (if using a picamera)
+  --webcam              (if using the first available camera on your computer)
+  --device NUMBER       (to specify the device)
 
-Note to also display the waterfall display, run with the option: **./PySpectrometer2-Picam2-v1.0.py --waterfall**
+Note to also display the waterfall display, run with the option: **--waterfall**
 
-To run in fullscreen mode (perform calibration in standard mode first), run with the option: **./PySpectrometer2-Picam2-v1.0.py --fullscreen**
+To run in fullscreen mode (perform calibration in standard mode first), run with the option: **--fullscreen**
 
 When first started, the spectrometer is in an uncalibrated state! You must therefore perform the calibration procedure, but at this stage you should be able to focus and align your camera with your spectroscope using the preview window. Is is expected that red light is on the right, and blue-violet on the left.
 An excellent choice for this is daylight, as well defined Fraunhoffer lines are indicative of good camera focus.
@@ -259,7 +262,7 @@ For an external USB camera, first find the device by issuing:
 
 Once you have determined this, you can run the program. For example if your camera is /dev/video3 and you require a framerate of 15fps you would issue:
 
-**./PySpectrometer2-USB-v1.0.py --device 3 --fps 15**
+**./PySpectrometer2.py --device 3 --fps 15**
 
 If you want fine control over camera settings use guvcview: **sudo apt-get install guvcview**
 
