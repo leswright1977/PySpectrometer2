@@ -31,6 +31,7 @@ import numpy as np
 from specFunctions import wavelength_to_rgb,savitzky_golay,peakIndexes,readcal,writecal,background,generateGraticule
 import base64
 import argparse
+from pprint import pprint
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--device", type=int, help="Video Device number e.g. 0, use v4l2-ctl --list-devices")
@@ -62,10 +63,14 @@ if args.device:
 
 frameWidth = 800
 frameHeight = 600
+message_loc1 = frameWidth - 310
+message_loc2 = frameWidth - 160
 
 picam2 = None
 if use_picamera:
+	from libcamera import controls
 	from picamera2 import Picamera2
+
 	picam2 = Picamera2()
 	#need to spend more time at: https://datasheets.raspberrypi.com/camera/picamera2-manual.pdf
 	#but this will do for now!
@@ -73,9 +78,19 @@ if use_picamera:
 	#30fps (33333, 33333)
 	#25fps (40000, 40000)
 
+	NoiseReductionMode = controls.draft.NoiseReductionModeEnum
 	picamGain = 10.0
-
-	video_config = picam2.create_video_configuration(main={"format": 'RGB888', "size": (frameWidth, frameHeight)}, controls={"FrameDurationLimits": (33333, 33333)})
+	video_config = picam2.create_video_configuration(
+		main={
+			"format": 'RGB888',
+			"size": (frameWidth, frameHeight)
+		},
+		controls={
+			"NoiseReductionMode": NoiseReductionMode.Fast,
+			"FrameDurationLimits": (33333, 33333),
+			"AnalogueGain": picamGain
+		})
+	pprint(video_config["controls"])
 	picam2.configure(video_config)
 	picam2.start()
 
@@ -173,6 +188,7 @@ graticuleData = generateGraticule(wavelengthData)
 tens = (graticuleData[0])
 fifties = (graticuleData[1])
 
+
 def snapshot(savedata):
 	now = time.strftime("%Y%m%d--%H%M%S")
 	timenow = time.strftime("%H:%M:%S")
@@ -224,6 +240,16 @@ while (True if use_picamera else cap.isOpened()):
 	np_data = np.frombuffer(decoded_data,np.uint8)
 	img = cv2.imdecode(np_data,3)
 	messages = img
+
+	# the background is fixed to 800x80, so we need to scale it if
+	# frameWidth and frameHeight have changed
+	img_resized = np.zeros([img.shape[0], frameWidth, 3], dtype=np.uint8)
+	w1 = img.shape[1]
+	w2 = img_resized.shape[1]
+	xoff = round((w2-w1)/2)
+	# center the background img in the newly sized background
+	img_resized[:, xoff:xoff+w1,:] = img
+	messages = img_resized
 
 	#blank image for Graph
 	graph = np.zeros([320,frameWidth,3],dtype=np.uint8)
@@ -323,7 +349,7 @@ while (True if use_picamera else cap.isOpened()):
 	textoffset = 12
 	thresh = int(thresh) #make sure the data is int.
 	indexes = peakIndexes(intensity, thres=thresh/max(intensity), min_dist=mindist)
-	#print(indexes)
+	
 	for i in indexes:
 		height = intensity[i]
 		height = 310-height
@@ -362,26 +388,26 @@ while (True if use_picamera else cap.isOpened()):
 
 
 	#stack the images and display the spectrum	
-	spectrum_vertical = np.vstack((messages,cropped, graph))
+	spectrum_vertical = np.vstack((messages, cropped, graph))
 	#dividing lines...
 	cv2.line(spectrum_vertical,(0,80),(frameWidth,80),(255,255,255),1)
 	cv2.line(spectrum_vertical,(0,160),(frameWidth,160),(255,255,255),1)
 	#print the messages
-	cv2.putText(spectrum_vertical,calmsg1,(490,15),font,0.4,(0,255,255),1, cv2.LINE_AA)
-	cv2.putText(spectrum_vertical,calmsg3,(490,33),font,0.4,(0,255,255),1, cv2.LINE_AA)
+	cv2.putText(spectrum_vertical,calmsg1,(message_loc1,15),font,0.4,(0,255,255),1, cv2.LINE_AA)
+	cv2.putText(spectrum_vertical,calmsg3,(message_loc1,33),font,0.4,(0,255,255),1, cv2.LINE_AA)
 
 	if use_picamera:
-		cv2.putText(spectrum_vertical,saveMsg,(490,51),font,0.4,(0,255,255),1, cv2.LINE_AA)
-		cv2.putText(spectrum_vertical,"Gain: "+str(picamGain),(490,69),font,0.4,(0,255,255),1, cv2.LINE_AA)
+		cv2.putText(spectrum_vertical,saveMsg,(message_loc1,51),font,0.4,(0,255,255),1, cv2.LINE_AA)
+		cv2.putText(spectrum_vertical,"Gain: "+str(picamGain),(message_loc1,69),font,0.4,(0,255,255),1, cv2.LINE_AA)
 	else:
-		cv2.putText(spectrum_vertical,"Framerate: "+str(cfps),(490,51),font,0.4,(0,255,255),1, cv2.LINE_AA)
-		cv2.putText(spectrum_vertical,saveMsg,(490,69),font,0.4,(0,255,255),1, cv2.LINE_AA)
+		cv2.putText(spectrum_vertical,"Framerate: "+str(cfps),(message_loc1,51),font,0.4,(0,255,255),1, cv2.LINE_AA)
+		cv2.putText(spectrum_vertical,saveMsg,(message_loc1,69),font,0.4,(0,255,255),1, cv2.LINE_AA)
 
 	#Second column
-	cv2.putText(spectrum_vertical,holdmsg,(640,15),font,0.4,(0,255,255),1, cv2.LINE_AA)
-	cv2.putText(spectrum_vertical,"Savgol Filter: "+str(savpoly),(640,33),font,0.4,(0,255,255),1, cv2.LINE_AA)
-	cv2.putText(spectrum_vertical,"Label Peak Width: "+str(mindist),(640,51),font,0.4,(0,255,255),1, cv2.LINE_AA)
-	cv2.putText(spectrum_vertical,"Label Threshold: "+str(thresh),(640,69),font,0.4,(0,255,255),1, cv2.LINE_AA)
+	cv2.putText(spectrum_vertical,holdmsg,(message_loc2,15),font,0.4,(0,255,255),1, cv2.LINE_AA)
+	cv2.putText(spectrum_vertical,"Savgol Filter: "+str(savpoly),(message_loc2,33),font,0.4,(0,255,255),1, cv2.LINE_AA)
+	cv2.putText(spectrum_vertical,"Label Peak Width: "+str(mindist),(message_loc2,51),font,0.4,(0,255,255),1, cv2.LINE_AA)
+	cv2.putText(spectrum_vertical,"Label Threshold: "+str(thresh),(message_loc2,69),font,0.4,(0,255,255),1, cv2.LINE_AA)
 	cv2.imshow(title1,spectrum_vertical)
 
 	if dispWaterfall == True:
@@ -403,18 +429,18 @@ while (True if use_picamera else cap.isOpened()):
 			cv2.putText(waterfall_vertical,str(positiondata[1])+'nm',(positiondata[0]-textoffset,475),font,0.4,(0,0,0),2, cv2.LINE_AA)
 			cv2.putText(waterfall_vertical,str(positiondata[1])+'nm',(positiondata[0]-textoffset,475),font,0.4,(255,255,255),1, cv2.LINE_AA)
 
-		cv2.putText(waterfall_vertical,calmsg1,(490,15),font,0.4,(0,255,255),1, cv2.LINE_AA)
+		cv2.putText(waterfall_vertical,calmsg1,(message_loc1,15),font,0.4,(0,255,255),1, cv2.LINE_AA)
 		
 		if use_picamera:
-			cv2.putText(waterfall_vertical,calmsg3,(490,33),font,0.4,(0,255,255),1, cv2.LINE_AA)
-			cv2.putText(waterfall_vertical,saveMsg,(490,51),font,0.4,(0,255,255),1, cv2.LINE_AA)
-			cv2.putText(waterfall_vertical,"Gain: "+str(picamGain),(490,69),font,0.4,(0,255,255),1, cv2.LINE_AA)
+			cv2.putText(waterfall_vertical,calmsg3,(message_loc1,33),font,0.4,(0,255,255),1, cv2.LINE_AA)
+			cv2.putText(waterfall_vertical,saveMsg,(message_loc1,51),font,0.4,(0,255,255),1, cv2.LINE_AA)
+			cv2.putText(waterfall_vertical,"Gain: "+str(picamGain),(message_loc1,69),font,0.4,(0,255,255),1, cv2.LINE_AA)
 		else:
-			cv2.putText(waterfall_vertical,calmsg2,(490,33),font,0.4,(0,255,255),1, cv2.LINE_AA)
-			cv2.putText(waterfall_vertical,calmsg3,(490,51),font,0.4,(0,255,255),1, cv2.LINE_AA)
-			cv2.putText(waterfall_vertical,saveMsg,(490,69),font,0.4,(0,255,255),1, cv2.LINE_AA)
+			cv2.putText(waterfall_vertical,calmsg2,(message_loc1,33),font,0.4,(0,255,255),1, cv2.LINE_AA)
+			cv2.putText(waterfall_vertical,calmsg3,(message_loc1,51),font,0.4,(0,255,255),1, cv2.LINE_AA)
+			cv2.putText(waterfall_vertical,saveMsg,(message_loc1,69),font,0.4,(0,255,255),1, cv2.LINE_AA)
 		
-		cv2.putText(waterfall_vertical,holdmsg,(640,15),font,0.4,(0,255,255),1, cv2.LINE_AA)
+		cv2.putText(waterfall_vertical,holdmsg,(message_loc2,15),font,0.4,(0,255,255),1, cv2.LINE_AA)
 
 		cv2.imshow(title2,waterfall_vertical)
 

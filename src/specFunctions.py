@@ -279,7 +279,7 @@ def readcal(width):
 		print("Loading of Calibration data failed (missing caldata.txt or corrupted data!")
 		print("Loading placeholder data...")
 		print("You MUST perform a Calibration to use this software!\n\n")
-		pixels = [0,400,800]
+		pixels = [0, width/2, width]
 		wavelengths = [380,560,750]
 
 
