@@ -148,8 +148,8 @@ First, clone this repo!
 
 In /src you will find:
 
-* PySpectrometer2.py  (The main program. See USB camera usage at the end of the Readme).
-* specFunctions.py    (A library of functions including: Wavelength to RGB, SavGol filter from Scipy, Peak detect from peakutils, readcal and writecal.
+* PySpectrometer2.py  (The main program. See USB camera usage at the end of the Readme)
+* specFunctions.py    (A library of functions including: Wavelength to RGB, SavGol filter from Scipy, Peak detect from peakutils, readcal and writecal)
 
 ## Dependencies
 
@@ -163,9 +163,9 @@ To run the program, first make it executable by running: **chmod +x PySpectromet
 
 Run by typing: **./PySpectrometer2.py --X**
 Where --X is one of:
-  --picam               (if using a picamera)
-  --webcam              (if using the first available camera on your computer)
-  --device NUMBER       (to specify the device)
+* --picam               (if using a picamera)
+* --webcam              (if using the first available camera on your computer)
+* --device NUMBER       (to specify the device)
 
 Note to also display the waterfall display, run with the option: **--waterfall**
 
