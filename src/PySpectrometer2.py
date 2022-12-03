@@ -62,7 +62,7 @@ if args.device:
 	
 peak_intensities = []
 frameWidth = 800
-frameHeight = 600
+frameHeight = int(frameWidth * 0.75)
 message_loc1 = frameWidth - 310
 message_loc2 = frameWidth - 160
 
@@ -171,12 +171,12 @@ def handle_mouse(event,x,y,flags,param):
 
 			wl = wavelengthData[closest_peak_index]
 			clickArray.append([mouseX, mouseY, closest_peak_index, wl])
-			print("added a point for peak {:.1f}nm at {}".format(wl, closest_peak))
+			print("added a point for peak {:.1f}nm at {}".format(wl, closest_peak_index))
 	elif event == cv2.EVENT_RBUTTONDOWN:
 		if len(clickArray) == 0:
 			return
-		_, _, closest_peak, wl = clickArray[-1]
-		print("removing point for peak {:.1f}nm at {}".format(wl, closest_peak))
+		_, _, closest_peak_index, wl = clickArray[-1]
+		print("removing point for peak {:.1f}nm at {}".format(wl, closest_peak_index))
 		clickArray = clickArray[:-1]
 #listen for click on plot window
 cv2.setMouseCallback(title1,handle_mouse)
