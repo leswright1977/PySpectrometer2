@@ -28,7 +28,7 @@ For instructions please consult the readme!
 import cv2
 import time
 import numpy as np
-from specFunctions import wavelength_to_rgb,savitzky_golay,peakIndexes,readcal,writecal,background,generateGraticule
+from specFunctions import wavelength_to_rgb,savitzky_golay,peakIndexes,readcal,writecal,background,generateGraticule,closest
 import base64
 import argparse
 from pprint import pprint
@@ -60,7 +60,7 @@ dev = 0
 if args.device:
 	dev = args.device
 	
-
+peak_intensities = []
 frameWidth = 800
 frameHeight = 600
 message_loc1 = frameWidth - 310
@@ -144,17 +144,40 @@ clickArray = []
 cursorX = 0
 cursorY = 0
 def handle_mouse(event,x,y,flags,param):
-	global clickArray
-	global cursorX
-	global cursorY
+	global clickArray, cursorX, cursorY, peak_intensities, wavelengthData
 	mouseYOffset = 160
 	if event == cv2.EVENT_MOUSEMOVE:
 		cursorX = x
 		cursorY = y	
-	if event == cv2.EVENT_LBUTTONDOWN:
+	elif event == cv2.EVENT_LBUTTONDOWN:
 		mouseX = x
 		mouseY = y-mouseYOffset
-		clickArray.append([mouseX,mouseY])
+		if len(peak_intensities) > 0:
+			# use raw peaks
+			closest_peak_index = 0
+			peak_distance = 5
+			left = mouseX - peak_distance
+			right = mouseX + peak_distance
+			peak_index = 0
+			peak_intensity = 0
+			for index, i in enumerate(raw_intensity[left:right]):
+				if i > peak_intensity:
+					peak_intensity = i
+					peak_index = index+left
+			closest_peak_index = peak_index
+
+			# # use labeled peaks
+			# closest_peak_index = closest(peak_intensities, mouseX)
+
+			wl = wavelengthData[closest_peak_index]
+			clickArray.append([mouseX, mouseY, closest_peak_index, wl])
+			print("added a point for peak {:.1f}nm at {}".format(wl, closest_peak))
+	elif event == cv2.EVENT_RBUTTONDOWN:
+		if len(clickArray) == 0:
+			return
+		_, _, closest_peak, wl = clickArray[-1]
+		print("removing point for peak {:.1f}nm at {}".format(wl, closest_peak))
+		clickArray = clickArray[:-1]
 #listen for click on plot window
 cv2.setMouseCallback(title1,handle_mouse)
 
@@ -258,7 +281,7 @@ if not use_picamera:
 	cap.isOpened()
 
 def runall():
-	global graticuleData, tens, fifties, msg1, saveMsg, waterfall, wavelengthData
+	global graticuleData, tens, fifties, msg1, saveMsg, waterfall, wavelengthData, peak_intensities
 	global caldata, calmsg1, calmsg2, calmsg3, savpoly, mindist, thresh
 	global calibrate, clickArray, cursorX, cursorY, picamGain, spectrum_vertical, waterfall_vertical
 	global graph, graph_base, wavelength_data_rgbs, raw_intensity, picam2, cap
@@ -353,9 +376,9 @@ def runall():
 		#find peaks and label them
 		textoffset = 12
 		thresh = int(thresh) #make sure the data is int.
-		peak_indexes = peakIndexes(intensity, thres=thresh/max(intensity), min_dist=mindist)
+		peak_intensities = peakIndexes(intensity, thres=thresh/max(intensity), min_dist=mindist)
 		
-		for i in peak_indexes:
+		for i in peak_intensities:
 			height = intensity[i]
 			height = 310-height
 			wavelength = round(wavelengthData[i],1)
@@ -381,7 +404,7 @@ def runall():
 			clickArray = []
 
 		if clickArray:
-			for mouseX, mouseY in clickArray:
+			for mouseX, mouseY, _, _ in clickArray:
 				cv2.circle(graph,(mouseX,mouseY),5,(0,0,0),-1)
 				#we can display text :-) so we can work out wavelength from x-pos and display it ultimately
 				cv2.putText(graph,str(mouseX),(mouseX+5,mouseY),cv2.FONT_HERSHEY_SIMPLEX,0.4,(0,0,0))
@@ -456,9 +479,9 @@ def runall():
 			keyPress = cv2.waitKey(1)
 			if keyPress == -1:
 				break
-			elif keyPress == ord('q'):
+			elif keyPress == ord("q"):
 				return
-			elif keyPress == ord('h'):
+			elif keyPress == ord("h"):
 				holdpeaks = not holdpeaks
 			elif keyPress == ord("s"):
 				#package up the data!
@@ -476,7 +499,7 @@ def runall():
 					savedata.append(graphdata)
 				saveMsg = snapshot(savedata)
 			elif keyPress == ord("c"):
-				if writecal(clickArray):
+				if writecal(clickArray, frameWidth):
 					#overwrite wavelength data
 					#Go grab the computed calibration data
 					caldata = readcal(frameWidth)
