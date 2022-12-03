@@ -31,9 +31,12 @@ import numpy as np
 from specFunctions import wavelength_to_rgb,savitzky_golay,peakIndexes,readcal,writecal,background,generateGraticule
 import base64
 import argparse
-from picamera2 import Picamera2
 
 parser = argparse.ArgumentParser()
+parser.add_argument("--device", type=int, help="Video Device number e.g. 0, use v4l2-ctl --list-devices")
+parser.add_argument("--webcam", action=argparse.BooleanOptionalAction, help="Use the first available camera")
+parser.add_argument("--picam", action=argparse.BooleanOptionalAction, help="Use the picamera")
+parser.add_argument("--fps", type=int, default=30, help="Frame Rate e.g. 30")
 group = parser.add_mutually_exclusive_group()
 group.add_argument("--fullscreen", help="Fullscreen (Native 800*480)",action="store_true")
 group.add_argument("--waterfall", help="Enable Waterfall (Windowed only)",action="store_true")
@@ -46,30 +49,55 @@ if args.fullscreen:
 if args.waterfall:
 	print("Waterfall display enabled")
 	dispWaterfall = True
-	
+
+use_webcam = args.webcam is not None
+use_device = args.device is not None
+use_picamera = args.picam is not None
+
+fps = args.fps
+dev = 0
+if args.device:
+	dev = args.device
 	
 
 frameWidth = 800
 frameHeight = 600
 
-picam2 = Picamera2()
-#need to spend more time at: https://datasheets.raspberrypi.com/camera/picamera2-manual.pdf
-#but this will do for now!
-#min and max microseconds per frame gives framerate.
-#30fps (33333, 33333)
-#25fps (40000, 40000)
+picam2 = None
+if use_picamera:
+	from picamera2 import Picamera2
+	picam2 = Picamera2()
+	#need to spend more time at: https://datasheets.raspberrypi.com/camera/picamera2-manual.pdf
+	#but this will do for now!
+	#min and max microseconds per frame gives framerate.
+	#30fps (33333, 33333)
+	#25fps (40000, 40000)
 
-picamGain = 10.0
+	picamGain = 10.0
 
-video_config = picam2.create_video_configuration(main={"format": 'RGB888', "size": (frameWidth, frameHeight)}, controls={"FrameDurationLimits": (33333, 33333)})
-picam2.configure(video_config)
-picam2.start()
+	video_config = picam2.create_video_configuration(main={"format": 'RGB888', "size": (frameWidth, frameHeight)}, controls={"FrameDurationLimits": (33333, 33333)})
+	picam2.configure(video_config)
+	picam2.start()
 
-#Change analog gain
-#picam2.set_controls({"AnalogueGain": 10.0}) #Default 1
-#picam2.set_controls({"Brightness": 0.2}) #Default 0 range -1.0 to +1.0
-#picam2.set_controls({"Contrast": 1.8}) #Default 1 range 0.0-32.0
+	#Change analog gain
+	#picam2.set_controls({"AnalogueGain": 10.0}) #Default 1
+	#picam2.set_controls({"Brightness": 0.2}) #Default 0 range -1.0 to +1.0
+	#picam2.set_controls({"Contrast": 1.8}) #Default 1 range 0.0-32.0
 
+cap = None
+if use_device or use_webcam:
+	if use_device:
+		cap = cv2.VideoCapture('/dev/video'+str(dev), cv2.CAP_V4L)
+	elif use_webcam:
+		cap = cv2.VideoCapture(0)
+	print("[info] W, H, FPS")
+	cap.set(cv2.CAP_PROP_FRAME_WIDTH,frameWidth)
+	cap.set(cv2.CAP_PROP_FRAME_HEIGHT,frameHeight)
+	cap.set(cv2.CAP_PROP_FPS,fps)
+	print(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+	print(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+	print(cap.get(cv2.CAP_PROP_FPS))
+	cfps = (cap.get(cv2.CAP_PROP_FPS))
 
 
 title1 = 'PySpectrometer 2 - Spectrograph'
@@ -165,9 +193,18 @@ def snapshot(savedata):
 	return(message)
 
 
-while True:
+while (True if use_picamera else cap.isOpened()):
 	# Capture frame-by-frame
-	frame = picam2.capture_array()
+	frame = None
+	ret = True
+	if use_picamera:
+		frame = picam2.capture_array()
+	else:
+		ret, frame = cap.read()
+
+	if not ret:
+		break
+
 	y=int((frameHeight/2)-40) #origin of the vertical crop
 	#y=200 	#origin of the vert crop
 	x=0   	#origin of the horiz crop
@@ -244,10 +281,13 @@ while True:
 			#wdata[0,index]=(r,g,b) #fix me!!! how do we deal with this data??
 			wdata[0,index]=(r,g,b)
 			index+=1
-		#bright and contrast of final image
-		contrast = 2.5
-		brightness =10
-		wdata = cv2.addWeighted( wdata, contrast, wdata, 0, brightness)
+
+		if use_picamera:
+			#bright and contrast of final image
+			contrast = 2.5
+			brightness =10
+			wdata = cv2.addWeighted( wdata, contrast, wdata, 0, brightness)
+
 		waterfall = np.insert(waterfall, 0, wdata, axis=0) #insert line to beginning of array
 		waterfall = waterfall[:-1].copy() #remove last element from array
 
@@ -329,8 +369,14 @@ while True:
 	#print the messages
 	cv2.putText(spectrum_vertical,calmsg1,(490,15),font,0.4,(0,255,255),1, cv2.LINE_AA)
 	cv2.putText(spectrum_vertical,calmsg3,(490,33),font,0.4,(0,255,255),1, cv2.LINE_AA)
-	cv2.putText(spectrum_vertical,saveMsg,(490,51),font,0.4,(0,255,255),1, cv2.LINE_AA)
-	cv2.putText(spectrum_vertical,"Gain: "+str(picamGain),(490,69),font,0.4,(0,255,255),1, cv2.LINE_AA)
+
+	if use_picamera:
+		cv2.putText(spectrum_vertical,saveMsg,(490,51),font,0.4,(0,255,255),1, cv2.LINE_AA)
+		cv2.putText(spectrum_vertical,"Gain: "+str(picamGain),(490,69),font,0.4,(0,255,255),1, cv2.LINE_AA)
+	else:
+		cv2.putText(spectrum_vertical,"Framerate: "+str(cfps),(490,51),font,0.4,(0,255,255),1, cv2.LINE_AA)
+		cv2.putText(spectrum_vertical,saveMsg,(490,69),font,0.4,(0,255,255),1, cv2.LINE_AA)
+
 	#Second column
 	cv2.putText(spectrum_vertical,holdmsg,(640,15),font,0.4,(0,255,255),1, cv2.LINE_AA)
 	cv2.putText(spectrum_vertical,"Savgol Filter: "+str(savpoly),(640,33),font,0.4,(0,255,255),1, cv2.LINE_AA)
@@ -358,9 +404,15 @@ while True:
 			cv2.putText(waterfall_vertical,str(positiondata[1])+'nm',(positiondata[0]-textoffset,475),font,0.4,(255,255,255),1, cv2.LINE_AA)
 
 		cv2.putText(waterfall_vertical,calmsg1,(490,15),font,0.4,(0,255,255),1, cv2.LINE_AA)
-		cv2.putText(waterfall_vertical,calmsg3,(490,33),font,0.4,(0,255,255),1, cv2.LINE_AA)
-		cv2.putText(waterfall_vertical,saveMsg,(490,51),font,0.4,(0,255,255),1, cv2.LINE_AA)
-		cv2.putText(waterfall_vertical,"Gain: "+str(picamGain),(490,69),font,0.4,(0,255,255),1, cv2.LINE_AA)
+		
+		if use_picamera:
+			cv2.putText(waterfall_vertical,calmsg3,(490,33),font,0.4,(0,255,255),1, cv2.LINE_AA)
+			cv2.putText(waterfall_vertical,saveMsg,(490,51),font,0.4,(0,255,255),1, cv2.LINE_AA)
+			cv2.putText(waterfall_vertical,"Gain: "+str(picamGain),(490,69),font,0.4,(0,255,255),1, cv2.LINE_AA)
+		else:
+			cv2.putText(waterfall_vertical,calmsg2,(490,33),font,0.4,(0,255,255),1, cv2.LINE_AA)
+			cv2.putText(waterfall_vertical,calmsg3,(490,51),font,0.4,(0,255,255),1, cv2.LINE_AA)
+			cv2.putText(waterfall_vertical,saveMsg,(490,69),font,0.4,(0,255,255),1, cv2.LINE_AA)
 		
 		cv2.putText(waterfall_vertical,holdmsg,(640,15),font,0.4,(0,255,255),1, cv2.LINE_AA)
 
@@ -442,24 +494,20 @@ while True:
 			thresh-=1
 			if thresh <=0:
 				thresh=0
-
-	elif keyPress == ord("t"):#Gain up!
+	elif use_picamera and keyPress == ord("t"):#Gain up!
 			picamGain += 1
 			if picamGain >=50:
 				picamGain = 50.0
 			picam2.set_controls({"AnalogueGain": picamGain})
 			print("Camera Gain: "+str(picamGain))
-	elif keyPress == ord("g"):#Gain down
+	elif use_picamera and keyPress == ord("g"):#Gain down
 			picamGain -= 1
 			if picamGain <=0:
 				picamGain = 0.0
 			picam2.set_controls({"AnalogueGain": picamGain})
 			print("Camera Gain: "+str(picamGain))								
 				
-
-
- 
 #Everything done
+if use_device or use_webcam:
+	cap.release()
 cv2.destroyAllWindows()
-
-
