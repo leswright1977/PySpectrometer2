@@ -489,6 +489,7 @@ def runall():
 					graticuleData = generateGraticule(wavelengthData)
 					tens = (graticuleData[0])
 					fifties = (graticuleData[1])
+					graph_base = build_graph_base()
 			elif keyPress == ord("x"):
 				clickArray = []
 			elif keyPress == ord("m"):
