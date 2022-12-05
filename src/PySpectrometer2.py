@@ -102,7 +102,7 @@ if use_picamera:
 cap = None
 if use_device or use_webcam:
 	if use_device:
-		cap = cv2.VideoCapture('/dev/video'+str(dev), cv2.CAP_V4L)
+		cap = cv2.VideoCapture("/dev/video{}".format(dev), cv2.CAP_V4L)
 	elif use_webcam:
 		cap = cv2.VideoCapture(0)
 	print("[info] W, H, FPS")
@@ -197,16 +197,6 @@ waterfall = np.full([320, frameWidth, 3], fill_value=0, dtype=np.uint8)
 caldata = readcal(frameWidth)
 wavelengthData = caldata[0]
 
-def compute_wavelength_rgbs(wavelengthData):
-	result = []
-	for wld in wavelengthData:
-		# derive the color from the wavelenthData array
-		rgb = wavelength_to_rgb(round(wld))
-		result.append(rgb)
-	return result
-
-wavelength_data_rgbs = compute_wavelength_rgbs(wavelengthData)
-
 calmsg1 = caldata[1]
 calmsg2 = caldata[2]
 calmsg3 = caldata[3]
@@ -230,14 +220,18 @@ xoff = round((w2-w1)/2)
 # center the background img in the newly sized background
 banner_image_resized[:, xoff:xoff+w1,:] = banner_image
 banner_image = banner_image_resized
+# white border at the bottom
+cv2.line(banner_image,(0,79),(frameWidth,79),(255,255,255),1)
+messages = np.copy(banner_image)
 
 spectrum_vertical = None
 waterfall_vertical = None
+textoffset = 12
 
 def build_graph_base():
+	global textoffset
 	# blank image for Graph, filled white
 	result = np.full([320, frameWidth, 3], fill_value=255, dtype=np.uint8)
-	textoffset = 12
 
 	# vertial lines every whole 10nm
 	for position in tens:
@@ -246,7 +240,7 @@ def build_graph_base():
 	# vertical lines every whole 50nm
 	for positiondata in fifties:
 		cv2.line(result,(positiondata[0],15),(positiondata[0],320),(0,0,0),1)
-		cv2.putText(result,str(positiondata[1])+'nm',(positiondata[0]-textoffset,12),font,0.4,(0,0,0),1, cv2.LINE_AA)
+		cv2.putText(result,"{}nm".format(positiondata[1]),(positiondata[0]-textoffset,12),font,0.4,(0,0,0),1, cv2.LINE_AA)
 
 	# horizontal lines
 	for i in range (320):
@@ -257,6 +251,26 @@ def build_graph_base():
 
 graph_base = build_graph_base()
 graph = np.copy(graph_base)
+
+def compute_wavelength_rgbs(wavelengthData):
+	result = []
+	for wld in wavelengthData:
+		# derive the color from the wavelenthData array
+		rgb = wavelength_to_rgb(round(wld))
+		result.append(rgb)
+	return result
+
+def compute_wavelength_rgbs_bg(array, graph):
+	result = np.full([320, frameWidth, 3], fill_value=255, dtype=np.uint8)
+	for index, wl in enumerate(array):
+		r, g, b = wavelength_data_rgbs[index]
+		result[:, index, :] = [b, g, r]
+	# overlay the graticule
+	result = cv2.bitwise_and(graph, result)
+	return result
+
+wavelength_data_rgbs = compute_wavelength_rgbs(wavelengthData)
+wavelength_data_rgbs_bg = compute_wavelength_rgbs_bg(wavelength_data_rgbs, graph_base)
 
 def snapshot(savedata):
 	now = time.strftime("%Y%m%d--%H%M%S")
@@ -270,7 +284,7 @@ def snapshot(savedata):
 	f = open("Spectrum-"+now+'.csv','w')
 	f.write('Wavelength,Intensity\r\n')
 	for x in zip(graphdata[0],graphdata[1]):
-		f.write(str(x[0])+','+str(x[1])+'\r\n')
+		f.write("{},{}\r\n".format(*x))
 	f.close()
 	message = "Last Save: "+timenow
 	return(message)
@@ -282,14 +296,20 @@ if not use_picamera:
 
 def runall():
 	global graticuleData, tens, fifties, msg1, saveMsg, waterfall, wavelengthData, peak_intensities
-	global caldata, calmsg1, calmsg2, calmsg3, savpoly, mindist, thresh
+	global caldata, calmsg1, calmsg2, calmsg3, savpoly, mindist, thresh, messages, banner_image
 	global calibrate, clickArray, cursorX, cursorY, picamGain, spectrum_vertical, waterfall_vertical
-	global graph, graph_base, wavelength_data_rgbs, raw_intensity, picam2, cap
+	global graph, graph_base, wavelength_data_rgbs, raw_intensity, picam2, cap, wavelength_data_rgbs_bg
+	global textoffset
 
 	holdpeaks = False
 	measure = False # show cursor measurements
 	recPixels = False # measure pixels and record clicks
 
+	pts = np.zeros((frameWidth+2, 2), dtype=np.int)
+	pts[0] = [frameWidth, 319]
+	pts[1] = [0, 319]
+	pts[2:, 0] = np.arange(frameWidth)
+	mask = np.zeros(graph.shape[:2], np.uint8)
 	while (True if use_picamera else cap.isOpened()):
 		# Capture frame-by-frame
 		frame = None
@@ -315,7 +335,7 @@ def runall():
 		cv2.line(cropped,(0,halfway-2),(frameWidth,halfway-2),(255,255,255),1)
 		cv2.line(cropped,(0,halfway+2),(frameWidth,halfway+2),(255,255,255),1)
 
-		messages = banner_image
+		np.copyto(messages, banner_image)
 		# reset the graph to the base
 		np.copyto(graph, graph_base)
 
@@ -330,18 +350,20 @@ def runall():
 		else:
 			raw_intensity = current_intensities
 
+		np.clip(raw_intensity, 0, 255, out=raw_intensity)
+
 		if dispWaterfall:
 			#data is smoothed at this point!!!!!!
 			#create an empty array for the data
 			wdata = np.zeros([1,frameWidth,3],dtype=np.uint8)
 			for index, i in enumerate(raw_intensity):
-				rgb = wavelength_data_rgbs[index]
 				luminosity = i/255.0
+				rgb = wavelength_data_rgbs[index]
 				b = int(round(rgb[0]*luminosity))
 				g = int(round(rgb[1]*luminosity))
 				r = int(round(rgb[2]*luminosity))
 				#wdata[0,index]=(r,g,b) #fix me!!! how do we deal with this data??
-				wdata[0,index]=(r,g,b)
+				wdata[0,index] = (r,g,b)
 
 			if use_picamera:
 				contrast = 2.5
@@ -353,9 +375,6 @@ def runall():
 				waterfall[index] = waterfall[index-1]
 			waterfall[0] = wdata
 
-		#Draw the intensity data :-)
-		#first filter if not holding peaks!
-		
 		intensity = None
 		if not holdpeaks:
 			intensity = savitzky_golay(raw_intensity,17,savpoly)
@@ -364,17 +383,21 @@ def runall():
 		else:
 			intensity = np.int32(raw_intensity)
 			holdmsg = "Holdpeaks ON"
-		
-		#now draw the intensity data....
-		for index, i in enumerate(intensity):
-			rgb = wavelength_data_rgbs[index]
-			r, g, b = rgb
-			# origin is top left
-			cv2.line(graph, (index,320), (index,320-i), (b,g,r), 1)
-			cv2.line(graph, (index,319-i), (index,320-i), (0,0,0), 1, cv2.LINE_AA)
 
-		#find peaks and label them
-		textoffset = 12
+		np.clip(intensity, 0, 255, out=intensity)
+
+		# draw instensity data
+		pts[2:, 1] = 319-intensity
+		# mask holds where we should draw the rainbow
+		mask.fill(0)
+		cv2.drawContours(mask, [pts], -1, 1, -1, cv2.LINE_AA)
+		mask3d = np.dstack([mask]*3)
+		# draw the rainbow using the mask onto graph
+		np.putmask(graph, mask3d, wavelength_data_rgbs_bg)
+		# draw the black line
+		graph[pts[2:, 1], pts[2:, 0]] = 0
+
+		# find peaks and label them
 		thresh = int(thresh) #make sure the data is int.
 		peak_intensities = peakIndexes(intensity, thres=thresh/max(intensity), min_dist=mindist)
 		
@@ -384,30 +407,26 @@ def runall():
 			wavelength = round(wavelengthData[i],1)
 			cv2.rectangle(graph,((i-textoffset)-2,height),((i-textoffset)+60,height-15),(0,255,255),-1)
 			cv2.rectangle(graph,((i-textoffset)-2,height),((i-textoffset)+60,height-15),(0,0,0),1)
-			cv2.putText(graph,str(wavelength)+'nm',(i-textoffset,height-3),font,0.4,(0,0,0),1, cv2.LINE_AA)
-			#flagpoles
+			cv2.putText(graph,"{}nm".format(wavelength),(i-textoffset,height-3),font,0.4,(0,0,0),1, cv2.LINE_AA)
+			# flagpoles
 			cv2.line(graph,(i,height),(i,height+10),(0,0,0),1)
 
 		if measure:
-			#show the cursor!
+			# show the cursor!
 			cv2.line(graph,(cursorX,cursorY-140),(cursorX,cursorY-180),(0,0,0),1)
 			cv2.line(graph,(cursorX-20,cursorY-160),(cursorX+20,cursorY-160),(0,0,0),1)
-			cv2.putText(graph,str(round(wavelengthData[cursorX],2))+'nm',(cursorX+5,cursorY-165),font,0.4,(0,0,0),1, cv2.LINE_AA)
+			cv2.putText(graph,"{}nm".format(round(wavelengthData[cursorX],2)),(cursorX+5,cursorY-165),font,0.4,(0,0,0),1, cv2.LINE_AA)
 
 		if recPixels:
-			#display the points
+			# display the points
 			cv2.line(graph,(cursorX,cursorY-140),(cursorX,cursorY-180),(0,0,0),1)
 			cv2.line(graph,(cursorX-20,cursorY-160),(cursorX+20,cursorY-160),(0,0,0),1)
-			cv2.putText(graph,str(cursorX)+'px',(cursorX+5,cursorY-165),font,0.4,(0,0,0),1, cv2.LINE_AA)
-		else:
-			#also make sure the click array stays empty
-			clickArray = []
+			cv2.putText(graph,"{}px".format(cursorX),(cursorX+5,cursorY-165),font,0.4,(0,0,0),1, cv2.LINE_AA)
 
-		if clickArray:
-			for mouseX, mouseY, _, _ in clickArray:
-				cv2.circle(graph,(mouseX,mouseY),5,(0,0,0),-1)
-				#we can display text :-) so we can work out wavelength from x-pos and display it ultimately
-				cv2.putText(graph,str(mouseX),(mouseX+5,mouseY),cv2.FONT_HERSHEY_SIMPLEX,0.4,(0,0,0))
+		for mouseX, mouseY, _, _ in clickArray:
+			cv2.circle(graph,(mouseX,mouseY),5,(0,0,0),-1)
+			#we can display text :-) so we can work out wavelength from x-pos and display it ultimately
+			cv2.putText(graph,str(mouseX),(mouseX+5,mouseY),cv2.FONT_HERSHEY_SIMPLEX,0.4,(0,0,0))
 		
 		# stack the images and display the spectrum (using concatenate instead of
 		# vstack to reuse the array and save memory allocations/time)
@@ -416,25 +435,22 @@ def runall():
 		else:
 			np.concatenate((messages, cropped, graph), out=spectrum_vertical, axis=0)
 
-		#dividing lines...
-		cv2.line(spectrum_vertical,(0,80),(frameWidth,80),(255,255,255),1)
-		cv2.line(spectrum_vertical,(0,160),(frameWidth,160),(255,255,255),1)
 		#print the messages
 		cv2.putText(spectrum_vertical,calmsg1,(message_loc1,15),font,0.4,(0,255,255),1, cv2.LINE_AA)
 		cv2.putText(spectrum_vertical,calmsg3,(message_loc1,33),font,0.4,(0,255,255),1, cv2.LINE_AA)
 
 		if use_picamera:
 			cv2.putText(spectrum_vertical,saveMsg,(message_loc1,51),font,0.4,(0,255,255),1, cv2.LINE_AA)
-			cv2.putText(spectrum_vertical,"Gain: "+str(picamGain),(message_loc1,69),font,0.4,(0,255,255),1, cv2.LINE_AA)
+			cv2.putText(spectrum_vertical,"Gain: {}".format(picamGain),(message_loc1,69),font,0.4,(0,255,255),1, cv2.LINE_AA)
 		else:
-			cv2.putText(spectrum_vertical,"Framerate: "+str(cfps),(message_loc1,51),font,0.4,(0,255,255),1, cv2.LINE_AA)
+			cv2.putText(spectrum_vertical,"Framerate: {}".format(cfps),(message_loc1,51),font,0.4,(0,255,255),1, cv2.LINE_AA)
 			cv2.putText(spectrum_vertical,saveMsg,(message_loc1,69),font,0.4,(0,255,255),1, cv2.LINE_AA)
 
 		#Second column
 		cv2.putText(spectrum_vertical,holdmsg,(message_loc2,15),font,0.4,(0,255,255),1, cv2.LINE_AA)
-		cv2.putText(spectrum_vertical,"Savgol Filter: "+str(savpoly),(message_loc2,33),font,0.4,(0,255,255),1, cv2.LINE_AA)
-		cv2.putText(spectrum_vertical,"Label Peak Width: "+str(mindist),(message_loc2,51),font,0.4,(0,255,255),1, cv2.LINE_AA)
-		cv2.putText(spectrum_vertical,"Label Threshold: "+str(thresh),(message_loc2,69),font,0.4,(0,255,255),1, cv2.LINE_AA)
+		cv2.putText(spectrum_vertical,"Savgol Filter: {}".format(savpoly),(message_loc2,33),font,0.4,(0,255,255),1, cv2.LINE_AA)
+		cv2.putText(spectrum_vertical,"Label Peak Width: {}".format(mindist),(message_loc2,51),font,0.4,(0,255,255),1, cv2.LINE_AA)
+		cv2.putText(spectrum_vertical,"Label Threshold: {}".format(thresh),(message_loc2,69),font,0.4,(0,255,255),1, cv2.LINE_AA)
 		cv2.imshow(title1,spectrum_vertical)
 
 		if dispWaterfall:
@@ -449,7 +465,6 @@ def runall():
 			cv2.line(waterfall_vertical,(0,160),(frameWidth,160),(255,255,255),1)
 			#Draw this stuff over the top of the image!
 			#Display a graticule calibrated with cal data
-			textoffset = 12
 
 			#vertical lines every whole 50nm
 			for positiondata in fifties:
@@ -457,15 +472,15 @@ def runall():
 					if i%20 == 0:
 						cv2.line(waterfall_vertical,(positiondata[0],i),(positiondata[0],i+1),(0,0,0),2)
 						cv2.line(waterfall_vertical,(positiondata[0],i),(positiondata[0],i+1),(255,255,255),1)
-				cv2.putText(waterfall_vertical,str(positiondata[1])+'nm',(positiondata[0]-textoffset,475),font,0.4,(0,0,0),2, cv2.LINE_AA)
-				cv2.putText(waterfall_vertical,str(positiondata[1])+'nm',(positiondata[0]-textoffset,475),font,0.4,(255,255,255),1, cv2.LINE_AA)
+				cv2.putText(waterfall_vertical,"{}nm".format(positiondata[1]),(positiondata[0]-textoffset,475),font,0.4,(0,0,0),2, cv2.LINE_AA)
+				cv2.putText(waterfall_vertical,"{}nm".format(positiondata[1]),(positiondata[0]-textoffset,475),font,0.4,(255,255,255),1, cv2.LINE_AA)
 
 			cv2.putText(waterfall_vertical,calmsg1,(message_loc1,15),font,0.4,(0,255,255),1, cv2.LINE_AA)
 			
 			if use_picamera:
 				cv2.putText(waterfall_vertical,calmsg3,(message_loc1,33),font,0.4,(0,255,255),1, cv2.LINE_AA)
 				cv2.putText(waterfall_vertical,saveMsg,(message_loc1,51),font,0.4,(0,255,255),1, cv2.LINE_AA)
-				cv2.putText(waterfall_vertical,"Gain: "+str(picamGain),(message_loc1,69),font,0.4,(0,255,255),1, cv2.LINE_AA)
+				cv2.putText(waterfall_vertical,"Gain: {}".format(picamGain),(message_loc1,69),font,0.4,(0,255,255),1, cv2.LINE_AA)
 			else:
 				cv2.putText(waterfall_vertical,calmsg2,(message_loc1,33),font,0.4,(0,255,255),1, cv2.LINE_AA)
 				cv2.putText(waterfall_vertical,calmsg3,(message_loc1,51),font,0.4,(0,255,255),1, cv2.LINE_AA)
@@ -503,8 +518,6 @@ def runall():
 					#overwrite wavelength data
 					#Go grab the computed calibration data
 					caldata = readcal(frameWidth)
-					wavelengthData = caldata[0]
-					wavelength_data_rgbs = compute_wavelength_rgbs(wavelengthData)
 					calmsg1 = caldata[1]
 					calmsg2 = caldata[2]
 					calmsg3 = caldata[3]
@@ -513,14 +526,20 @@ def runall():
 					tens = (graticuleData[0])
 					fifties = (graticuleData[1])
 					graph_base = build_graph_base()
+					wavelengthData = caldata[0]
+					wavelength_data_rgbs = compute_wavelength_rgbs(wavelengthData)
+					wavelength_data_rgbs_bg = compute_wavelength_rgbs_bg(wavelength_data_rgbs, graph_base)
 			elif keyPress == ord("x"):
 				clickArray = []
 			elif keyPress == ord("m"):
-				recPixels = False #turn off recpixels!
 				measure = not measure
+				recPixels = False # turn off recpixels!
+				clickArray = []
 			elif keyPress == ord("p"):
 				measure = False #turn off measure!
 				recPixels = not recPixels
+				if not recPixels:
+					clickArray = []
 			elif keyPress == ord("o"):#sav up
 					savpoly+=1
 					if savpoly >=15:
@@ -550,13 +569,13 @@ def runall():
 					if picamGain >=50:
 						picamGain = 50.0
 					picam2.set_controls({"AnalogueGain": picamGain})
-					print("Camera Gain: "+str(picamGain))
+					print("Camera Gain: {}".format(picamGain))
 			elif use_picamera and keyPress == ord("g"):#Gain down
 					picamGain -= 1
 					if picamGain <=0:
 						picamGain = 0.0
 					picam2.set_controls({"AnalogueGain": picamGain})
-					print("Camera Gain: "+str(picamGain))								
+					print("Camera Gain: {}".format(picamGain))								
 
 runall()
 				

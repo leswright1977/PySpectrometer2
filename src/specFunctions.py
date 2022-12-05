@@ -208,11 +208,17 @@ def peakIndexes(y, thres=0.3, min_dist=1, thres_abs=False):
 
         # for each chain of zero indexes
         for plateau in zero_plateaus:
-            median = np.median(plateau)
-            # set leftmost values to leftmost non zero values
-            dy[plateau[plateau < median]] = dy[plateau[0] - 1]
-            # set rightmost and middle values to rightmost non zero values
-            dy[plateau[plateau >= median]] = dy[plateau[-1] + 1]
+            lplat = plateau.shape[0]
+            left = dy[plateau[0] - 1]
+            right = dy[plateau[lplat-1] + 1]
+            middle = lplat // 2
+            # always in sorted order
+            median = plateau[middle]
+            for p in plateau:
+                if p < median:
+                    dy[p] = left
+                else:
+                    dy[p] = right
 
     # find the peaks by using the first order difference
     peaks = np.where(
