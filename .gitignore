@@ -1,0 +1,5 @@
+venv/
+.venv/
+.idea/
+.env
+**.db

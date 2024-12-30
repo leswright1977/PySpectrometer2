@@ -33,6 +33,8 @@ from specFunctions import wavelength_to_rgb,savitzky_golay,peakIndexes,readcal,w
 import base64
 import argparse
 
+from src.db import snapshot_database
+
 parser = argparse.ArgumentParser()
 parser.add_argument("--device", type=int, default=0, help="Video Device number e.g. 0, use v4l2-ctl --list-devices")
 parser.add_argument("--fps", type=int, default=30, help="Frame Rate e.g. 30")
@@ -153,7 +155,8 @@ def snapshot(savedata):
 	now = time.strftime("%Y%m%d--%H%M%S")
 	timenow = time.strftime("%H:%M:%S")
 	imdata1 = savedata[0]
-	graphdata = savedata[1]
+	wavelengths = savedata[1][0]
+	intensities = savedata[1][1]
 	if dispWaterfall == True:
 		imdata2 = savedata[2]
 		cv2.imwrite("waterfall-" + now + ".png",imdata2)
@@ -162,11 +165,14 @@ def snapshot(savedata):
 	#print(graphdata[1]) #intensities
 	f = open("Spectrum-"+now+'.csv','w')
 	f.write('Wavelength,Intensity\r\n')
-	for x in zip(graphdata[0],graphdata[1]):
+	for x in zip(wavelengths, intensities):
 		f.write(str(x[0])+','+str(x[1])+'\r\n')
 	f.close()
+
+	snapshot_database(now, wavelengths, intensities)
+
 	message = "Last Save: "+timenow
-	return(message)
+	return message
 
 while(cap.isOpened()):
 	# Capture frame-by-frame
