@@ -1,0 +1,20 @@
+{
+  "constants": {
+    "camera_frame_width": 800,
+    "camera_frame_height": 600,
+    "frame_duration_limit": [33333, 33333],
+    "testing_image_path": "src/config/spectrum_image_for_test.png"
+  },
+  "runtime_config": {
+    "testing_mode": false,
+    "disp_full_screen": false,
+    "disp_waterfall": false
+  },
+  "state_defaults": {
+    "default_picam_gain": 10.0,
+    "default_savgol_filter_poly": 7,
+    "default_savgol_filter_window_size": 17,
+    "default_minimum_distance_betw_peaks": 50,
+    "default_threshold": 20
+  }
+}
